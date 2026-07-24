@@ -2,7 +2,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const eventType = defineType({
   name: 'event',
-  title: 'Events',
+  title: 'Eventos',
   type: 'document',
   fields: [
     defineField({
@@ -20,14 +20,14 @@ export const eventType = defineType({
     }),
     defineField({
       name: 'city',
-      title: 'City',
+      title: 'Ciudad',
       type: 'reference',
       to: [{type: 'city'}],
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'categories',
-      title: 'Categories',
+      title: 'Categorías',
       type: 'array',
       of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
     }),
@@ -37,17 +37,17 @@ export const eventType = defineType({
       type: 'string',
       validation: (rule) => rule.max(140),
     }),
-    defineField({name: 'address', title: 'Address', type: 'string'}),
-    defineField({name: 'mapUrl', title: 'Google Maps link', type: 'url'}),
+    defineField({name: 'address', title: 'Dirección', type: 'string'}),
+    defineField({name: 'mapUrl', title: 'Enlace de Google Maps', type: 'url'}),
     defineField({
       name: 'startsAt',
-      title: 'Start date and time',
+      title: 'Fecha y hora de inicio',
       type: 'datetime',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'endsAt',
-      title: 'End date and time',
+      title: 'Fecha y hora de finalización',
       type: 'datetime',
       validation: (rule) =>
         rule.required().custom((endsAt, context) => {
@@ -58,27 +58,27 @@ export const eventType = defineType({
     }),
     defineField({
       name: 'summary',
-      title: 'Short description',
+      title: 'Descripción breve',
       type: 'text',
       rows: 3,
       validation: (rule) => rule.required().min(20).max(280),
     }),
     defineField({
       name: 'description',
-      title: 'Complete description',
+      title: 'Descripción completa',
       type: 'array',
       of: [defineArrayMember({type: 'block'})],
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'coverImage',
-      title: 'Main image',
+      title: 'Imagen principal',
       type: 'image',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Image description',
+          title: 'Descripción de la imagen',
           type: 'string',
           validation: (rule) => rule.required(),
         }),
@@ -94,8 +94,8 @@ export const eventType = defineType({
           type: 'image',
           options: {hotspot: true},
           fields: [
-            defineField({name: 'alt', title: 'Image description', type: 'string'}),
-            defineField({name: 'caption', title: 'Caption', type: 'string'}),
+            defineField({name: 'alt', title: 'Descripción de la imagen', type: 'string'}),
+            defineField({name: 'caption', title: 'Texto de la foto', type: 'string'}),
           ],
         }),
       ],
@@ -103,20 +103,20 @@ export const eventType = defineType({
     defineField({name: 'officialUrl', title: 'Official event link', type: 'url'}),
     defineField({
       name: 'featured',
-      title: 'Featured event',
+      title: 'Evento destacado',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'active',
-      title: 'Visible on the website',
+      title: 'Visible en la página',
       type: 'boolean',
       initialValue: true,
     }),
   ],
   orderings: [
     {title: 'Upcoming first', name: 'startsAtAsc', by: [{field: 'startsAt', direction: 'asc'}]},
-    {title: 'Newest first', name: 'startsAtDesc', by: [{field: 'startsAt', direction: 'desc'}]},
+    {title: 'Más recientes primero', name: 'startsAtDesc', by: [{field: 'startsAt', direction: 'desc'}]},
   ],
   preview: {
     select: {title: 'title', startsAt: 'startsAt', city: 'city.name', media: 'coverImage'},

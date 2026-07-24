@@ -2,81 +2,82 @@ import type {StructureResolver} from 'sanity/structure'
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Argentina by Agustina CMS')
+    .title('Administrar Argentina by Agustina')
     .items([
       S.listItem()
-        .title('Articles')
-        .schemaType('article')
-        .child(S.documentTypeList('article').title('Articles')),
-      S.listItem()
-        .title('Cities')
-        .schemaType('city')
-        .child(S.documentTypeList('city').title('Cities')),
-      S.listItem()
-        .title('Categories')
-        .schemaType('category')
-        .child(S.documentTypeList('category').title('Categories')),
-      S.divider(),
-      S.listItem()
-        .title('Places')
-        .schemaType('place')
-        .child(S.documentTypeList('place').title('Places')),
-      S.listItem()
-        .title('Events')
-        .schemaType('event')
-        .child(S.documentTypeList('event').title('Events')),
-      S.divider(),
-      S.listItem()
-        .title('Reviews')
+        .id('pendingReviews')
+        .title('⭐ Reseñas pendientes')
         .child(
-          S.list()
-            .title('Reviews')
-            .items([
-              S.listItem()
-                .title('Pending reviews')
-                .child(
-                  S.documentList()
-                    .title('Pending reviews')
-                    .schemaType('review')
-                    .filter('_type == "review" && status == "pending"')
-                    .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
-                ),
-              S.listItem()
-                .title('Approved reviews')
-                .child(
-                  S.documentList()
-                    .title('Approved reviews')
-                    .schemaType('review')
-                    .filter('_type == "review" && status == "approved"')
-                    .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
-                ),
-              S.listItem()
-                .title('Rejected reviews')
-                .child(
-                  S.documentList()
-                    .title('Rejected reviews')
-                    .schemaType('review')
-                    .filter('_type == "review" && status == "rejected"')
-                    .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
-                ),
-              S.divider(),
-              S.listItem()
-                .title('All reviews')
-                .child(
-                  S.documentTypeList('review')
-                    .title('All reviews')
-                    .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
-                ),
-            ]),
+          S.documentList()
+            .title('Reseñas esperando aprobación')
+            .schemaType('review')
+            .filter('_type == "review" && status == "pending"')
+            .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
         ),
       S.divider(),
       S.listItem()
-        .title('Website settings')
+        .id('articles')
+        .title('📰 Artículos y recomendaciones')
+        .schemaType('article')
+        .child(S.documentTypeList('article').title('Artículos')),
+      S.listItem()
+        .id('places')
+        .title('📍 Lugares recomendados')
+        .schemaType('place')
+        .child(S.documentTypeList('place').title('Lugares recomendados')),
+      S.listItem()
+        .id('events')
+        .title('📅 Eventos y actividades')
+        .schemaType('event')
+        .child(S.documentTypeList('event').title('Eventos y actividades')),
+      S.divider(),
+      S.listItem()
+        .id('approvedReviews')
+        .title('✅ Reseñas aprobadas')
+        .child(
+          S.documentList()
+            .title('Reseñas visibles en la web')
+            .schemaType('review')
+            .filter('_type == "review" && status == "approved"')
+            .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
+        ),
+      S.listItem()
+        .id('rejectedReviews')
+        .title('⛔ Reseñas rechazadas')
+        .child(
+          S.documentList()
+            .title('Reseñas rechazadas')
+            .schemaType('review')
+            .filter('_type == "review" && status == "rejected"')
+            .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
+        ),
+      S.listItem()
+        .id('allReviews')
+        .title('💬 Todas las reseñas')
+        .child(
+          S.documentTypeList('review')
+            .title('Todas las reseñas')
+            .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
+        ),
+      S.divider(),
+      S.listItem()
+        .id('cities')
+        .title('🏙️ Ciudades y destinos')
+        .schemaType('city')
+        .child(S.documentTypeList('city').title('Ciudades y destinos')),
+      S.listItem()
+        .id('categories')
+        .title('🏷️ Categorías')
+        .schemaType('category')
+        .child(S.documentTypeList('category').title('Categorías')),
+      S.divider(),
+      S.listItem()
         .id('websiteSettings')
+        .title('⚙️ Datos de la página y contacto')
         .child(
           S.document()
             .schemaType('websiteSettings')
             .documentId('websiteSettings')
-            .title('Website settings'),
+            .title('Datos de la página y contacto'),
         ),
     ])
