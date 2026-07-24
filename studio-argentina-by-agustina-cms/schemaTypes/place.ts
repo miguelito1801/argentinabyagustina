@@ -2,12 +2,12 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const placeType = defineType({
   name: 'place',
-  title: 'Places',
+  title: 'Lugares',
   type: 'document',
   fields: [
     defineField({
       name: 'name',
-      title: 'Place name',
+      title: 'Nombre del lugar',
       type: 'string',
       validation: (rule) => rule.required().min(2).max(120),
     }),
@@ -20,40 +20,40 @@ export const placeType = defineType({
     }),
     defineField({
       name: 'city',
-      title: 'City',
+      title: 'Ciudad',
       type: 'reference',
       to: [{type: 'city'}],
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'categories',
-      title: 'Categories',
+      title: 'Categorías',
       type: 'array',
       of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
       validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'address',
-      title: 'Address',
+      title: 'Dirección',
       type: 'string',
       validation: (rule) => rule.max(180),
     }),
     defineField({
       name: 'mapUrl',
-      title: 'Google Maps link',
+      title: 'Enlace de Google Maps',
       type: 'url',
-      description: 'Paste the public share link from Google Maps.',
+      description: 'Pegá el enlace público para compartir desde Google Maps.',
     }),
     defineField({
       name: 'shortDescription',
-      title: 'Short description',
+      title: 'Descripción breve',
       type: 'text',
       rows: 3,
       validation: (rule) => rule.required().min(20).max(280),
     }),
     defineField({
       name: 'description',
-      title: 'Complete description',
+      title: 'Descripción completa',
       type: 'array',
       of: [
         defineArrayMember({type: 'block'}),
@@ -61,8 +61,8 @@ export const placeType = defineType({
           type: 'image',
           options: {hotspot: true},
           fields: [
-            defineField({name: 'alt', title: 'Image description', type: 'string'}),
-            defineField({name: 'caption', title: 'Caption', type: 'string'}),
+            defineField({name: 'alt', title: 'Descripción de la imagen', type: 'string'}),
+            defineField({name: 'caption', title: 'Texto de la foto', type: 'string'}),
           ],
         }),
       ],
@@ -70,13 +70,13 @@ export const placeType = defineType({
     }),
     defineField({
       name: 'coverImage',
-      title: 'Main image',
+      title: 'Imagen principal',
       type: 'image',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Image description',
+          title: 'Descripción de la imagen',
           type: 'string',
           validation: (rule) => rule.required(),
         }),
@@ -85,51 +85,51 @@ export const placeType = defineType({
     }),
     defineField({
       name: 'gallery',
-      title: 'Image gallery',
+      title: 'Galería de imágenes',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
           fields: [
-            defineField({name: 'alt', title: 'Image description', type: 'string'}),
-            defineField({name: 'caption', title: 'Caption', type: 'string'}),
+            defineField({name: 'alt', title: 'Descripción de la imagen', type: 'string'}),
+            defineField({name: 'caption', title: 'Texto de la foto', type: 'string'}),
           ],
         }),
       ],
     }),
     defineField({name: 'instagramUrl', title: 'Instagram', type: 'url'}),
-    defineField({name: 'websiteUrl', title: 'Official website', type: 'url'}),
+    defineField({name: 'websiteUrl', title: 'Sitio web oficial', type: 'url'}),
     defineField({
       name: 'priceLevel',
-      title: 'Price level',
+      title: 'Nivel de precio',
       type: 'string',
       options: {
         list: [
-          {title: 'Free', value: 'free'},
+          {title: 'Gratis', value: 'free'},
           {title: '$', value: 'low'},
           {title: '$$', value: 'medium'},
           {title: '$$$', value: 'high'},
-          {title: 'Not specified', value: 'unknown'},
+          {title: 'Sin especificar', value: 'unknown'},
         ],
       },
       initialValue: 'unknown',
     }),
     defineField({
       name: 'featured',
-      title: 'Featured place',
+      title: 'Lugar destacado',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'active',
-      title: 'Visible on the website',
+      title: 'Visible en la página',
       type: 'boolean',
       initialValue: true,
     }),
   ],
   orderings: [
-    {title: 'Name A–Z', name: 'nameAsc', by: [{field: 'name', direction: 'asc'}]},
+    {title: 'Nombre A–Z', name: 'nameAsc', by: [{field: 'name', direction: 'asc'}]},
   ],
   preview: {
     select: {

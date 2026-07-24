@@ -2,12 +2,12 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const articleType = defineType({
   name: 'article',
-  title: 'Articles',
+  title: 'Artículos',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Article title',
+      title: 'Título del artículo',
       type: 'string',
       validation: (rule) => rule.required().min(5).max(120),
     }),
@@ -15,44 +15,44 @@ export const articleType = defineType({
       name: 'slug',
       title: 'URL',
       type: 'slug',
-      description: 'Press Generate to create the article URL automatically.',
+      description: 'Pulsá Generar para crear la dirección del artículo automáticamente.',
       options: {source: 'title', maxLength: 96},
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'summary',
-      title: 'Short description',
+      title: 'Descripción breve',
       type: 'text',
       rows: 3,
-      description: 'A short introduction that will appear on the article card.',
+      description: 'Escribí una introducción breve que aparecerá en la tarjeta del artículo.',
       validation: (rule) => rule.required().min(20).max(250),
     }),
     defineField({
       name: 'city',
-      title: 'City',
+      title: 'Ciudad',
       type: 'reference',
       to: [{type: 'city'}],
-      description: 'Optional. Select a city when the article is related to a specific destination.',
+      description: 'Opcional. Elegí una ciudad cuando el artículo se relacione con un destino específico.',
     }),
     defineField({
       name: 'categories',
-      title: 'Categories',
+      title: 'Categorías',
       type: 'array',
       of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
       validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'coverImage',
-      title: 'Cover image',
+      title: 'Imagen de portada',
       type: 'image',
-      description: 'Main image displayed on the article card and at the top of the article.',
+      description: 'Imagen principal que aparecerá en la tarjeta y al comienzo del artículo.',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Image description',
+          title: 'Descripción de la imagen',
           type: 'string',
-          description: 'Briefly describe the image for accessibility and Google.',
+          description: 'Describí brevemente la imagen para accesibilidad y Google.',
           validation: (rule) => rule.required(),
         }),
       ],
@@ -60,9 +60,9 @@ export const articleType = defineType({
     }),
     defineField({
       name: 'gallery',
-      title: 'Image gallery',
+      title: 'Galería de imágenes',
       type: 'array',
-      description: 'Additional photographs that Agustina wants to show in the article.',
+      description: 'Fotografías adicionales que quieras mostrar en el artículo.',
       of: [
         defineArrayMember({
           type: 'image',
@@ -70,20 +70,20 @@ export const articleType = defineType({
           fields: [
             defineField({
               name: 'alt',
-              title: 'Image description',
+              title: 'Descripción de la imagen',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
-            defineField({name: 'caption', title: 'Caption', type: 'string'}),
+            defineField({name: 'caption', title: 'Texto de la foto', type: 'string'}),
           ],
         }),
       ],
     }),
     defineField({
       name: 'body',
-      title: 'Article content',
+      title: 'Contenido del artículo',
       type: 'array',
-      description: 'Write the complete article here. You can use headings, lists, links and images.',
+      description: 'Escribí aquí el artículo completo. Podés usar títulos, listas, enlaces e imágenes.',
       of: [
         defineArrayMember({type: 'block'}),
         defineArrayMember({
@@ -92,11 +92,11 @@ export const articleType = defineType({
           fields: [
             defineField({
               name: 'alt',
-              title: 'Image description',
+              title: 'Descripción de la imagen',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
-            defineField({name: 'caption', title: 'Caption', type: 'string'}),
+            defineField({name: 'caption', title: 'Texto de la foto', type: 'string'}),
           ],
         }),
       ],
@@ -104,21 +104,21 @@ export const articleType = defineType({
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Publication date',
+      title: 'Fecha de publicación',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'featured',
-      title: 'Featured article',
+      title: 'Artículo destacado',
       type: 'boolean',
-      description: 'Activate this option to highlight the article on the homepage.',
+      description: 'Activá esta opción para destacar el artículo en la página principal.',
       initialValue: false,
     }),
   ],
   orderings: [
-    {title: 'Newest first', name: 'publishedAtDesc', by: [{field: 'publishedAt', direction: 'desc'}]},
+    {title: 'Más recientes primero', name: 'publishedAtDesc', by: [{field: 'publishedAt', direction: 'desc'}]},
   ],
   preview: {
     select: {

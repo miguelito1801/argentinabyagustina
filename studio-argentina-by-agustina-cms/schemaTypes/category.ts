@@ -2,12 +2,12 @@ import {defineField, defineType} from 'sanity'
 
 export const categoryType = defineType({
   name: 'category',
-  title: 'Categories',
+  title: 'Categorías',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Category name',
+      title: 'Nombre de la categoría',
       type: 'string',
       validation: (rule) => rule.required().min(2).max(60),
     }),
@@ -20,23 +20,23 @@ export const categoryType = defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Descripción',
       type: 'text',
       rows: 3,
       validation: (rule) => rule.max(240),
     }),
     defineField({
       name: 'colorLabel',
-      title: 'Internal color label',
+      title: 'Color interno',
       type: 'string',
       description: 'Optional label used only to help organize categories in the CMS.',
       options: {
         list: [
-          {title: 'Sky blue', value: 'sky'},
-          {title: 'Burgundy', value: 'burgundy'},
-          {title: 'Gold', value: 'gold'},
-          {title: 'Green', value: 'green'},
-          {title: 'Neutral', value: 'neutral'},
+          {title: 'Celeste', value: 'sky'},
+          {title: 'Bordó', value: 'burgundy'},
+          {title: 'Dorado', value: 'gold'},
+          {title: 'Verde', value: 'green'},
+          {title: 'Neutro', value: 'neutral'},
         ],
       },
       initialValue: 'neutral',

@@ -2,30 +2,30 @@ import {defineField, defineType} from 'sanity'
 
 export const reviewType = defineType({
   name: 'review',
-  title: 'Reviews',
+  title: 'Reseñas',
   type: 'document',
   fields: [
     defineField({
       name: 'name',
-      title: 'Traveler name',
+      title: 'Nombre del viajero',
       type: 'string',
       validation: (rule) => rule.required().min(2).max(100),
     }),
     defineField({
       name: 'country',
-      title: 'Country',
+      title: 'País',
       type: 'string',
       validation: (rule) => rule.required().min(2).max(80),
     }),
     defineField({
       name: 'email',
-      title: 'Email (private)',
+      title: 'Correo electrónico (privado)',
       type: 'email',
-      description: 'Used only for internal verification. It is never shown publicly.',
+      description: 'Se usa únicamente para verificación interna. Nunca se muestra públicamente.',
     }),
     defineField({
       name: 'rating',
-      title: 'Rating',
+      title: 'Calificación',
       type: 'number',
       options: {
         list: [
@@ -41,20 +41,20 @@ export const reviewType = defineType({
     }),
     defineField({
       name: 'comment',
-      title: 'Review',
+      title: 'Reseña',
       type: 'text',
       rows: 6,
       validation: (rule) => rule.required().min(20).max(1200),
     }),
     defineField({
       name: 'status',
-      title: 'Moderation status',
+      title: 'Estado de moderación',
       type: 'string',
       options: {
         list: [
-          {title: '⏳ Pending', value: 'pending'},
-          {title: '✅ Approved', value: 'approved'},
-          {title: '❌ Rejected', value: 'rejected'},
+          {title: '⏳ Pendiente', value: 'pending'},
+          {title: '✅ Aprobada', value: 'approved'},
+          {title: '❌ Rechazada', value: 'rejected'},
         ],
         layout: 'radio',
       },
@@ -63,45 +63,45 @@ export const reviewType = defineType({
     }),
     defineField({
       name: 'submittedAt',
-      title: 'Submission date',
+      title: 'Fecha de envío',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
       readOnly: true,
     }),
     defineField({
       name: 'source',
-      title: 'Source',
+      title: 'Origen',
       type: 'string',
       options: {
         list: [
-          {title: 'Website', value: 'website'},
+          {title: 'Página web', value: 'website'},
           {title: 'WhatsApp', value: 'whatsapp'},
           {title: 'Google', value: 'google'},
           {title: 'Instagram', value: 'instagram'},
-          {title: 'Added manually', value: 'manual'},
+          {title: 'Agregada manualmente', value: 'manual'},
         ],
       },
       initialValue: 'website',
     }),
     defineField({
       name: 'featured',
-      title: 'Featured review',
+      title: 'Reseña destacada',
       type: 'boolean',
-      description: 'Featured approved reviews can be highlighted on the homepage.',
+      description: 'Las reseñas aprobadas y destacadas pueden resaltarse en la página principal.',
       initialValue: false,
       hidden: ({document}) => document?.status !== 'approved',
     }),
     defineField({
       name: 'internalNotes',
-      title: 'Internal notes',
+      title: 'Notas internas',
       type: 'text',
       rows: 3,
-      description: 'Private notes for Agustina. Never shown on the website.',
+      description: 'Notas privadas para Agustina. Nunca se muestran en la página.',
     }),
   ],
   orderings: [
     {
-      title: 'Newest first',
+      title: 'Más recientes primero',
       name: 'submittedAtDesc',
       by: [{field: 'submittedAt', direction: 'desc'}],
     },

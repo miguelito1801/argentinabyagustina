@@ -2,12 +2,12 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const cityType = defineType({
   name: 'city',
-  title: 'Cities',
+  title: 'Ciudades',
   type: 'document',
   fields: [
     defineField({
       name: 'name',
-      title: 'City name',
+      title: 'Nombre de la ciudad',
       type: 'string',
       validation: (rule) => rule.required().min(2).max(80),
     }),
@@ -20,32 +20,32 @@ export const cityType = defineType({
     }),
     defineField({
       name: 'province',
-      title: 'Province / region',
+      title: 'Provincia o región',
       type: 'string',
       validation: (rule) => rule.required().max(80),
     }),
     defineField({
       name: 'shortDescription',
-      title: 'Short description',
+      title: 'Descripción breve',
       type: 'text',
       rows: 3,
       validation: (rule) => rule.required().min(20).max(260),
     }),
     defineField({
       name: 'description',
-      title: 'Complete description',
+      title: 'Descripción completa',
       type: 'array',
       of: [defineArrayMember({type: 'block'})],
     }),
     defineField({
       name: 'coverImage',
-      title: 'Cover image',
+      title: 'Imagen de portada',
       type: 'image',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Image description',
+          title: 'Descripción de la imagen',
           type: 'string',
           validation: (rule) => rule.required(),
         }),
@@ -54,7 +54,7 @@ export const cityType = defineType({
     }),
     defineField({
       name: 'mapUrl',
-      title: 'Google Maps link',
+      title: 'Enlace de Google Maps',
       type: 'url',
       description: 'Paste the public Google Maps link for the city.',
     }),
@@ -66,7 +66,7 @@ export const cityType = defineType({
     }),
   ],
   orderings: [
-    {title: 'Name A–Z', name: 'nameAsc', by: [{field: 'name', direction: 'asc'}]},
+    {title: 'Nombre A–Z', name: 'nameAsc', by: [{field: 'name', direction: 'asc'}]},
   ],
   preview: {
     select: {title: 'name', subtitle: 'province', media: 'coverImage', featured: 'featured'},
