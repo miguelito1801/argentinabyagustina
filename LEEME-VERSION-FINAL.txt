@@ -1,0 +1,27 @@
+ARGENTINA BY AGUSTINA — VERSION FINAL
+
+Incluye:
+- Sanity CMS completo: Articles, Cities, Categories, Places, Events, Reviews y Website Settings.
+- Artículos con página individual, galería, compartir y SEO.
+- Lugares con página individual, mapa, web, Instagram y galería.
+- Eventos con página individual, mapa, enlace oficial, galería y Google Calendar.
+- Reseñas públicas únicamente si están Approved.
+- Formulario de reseñas moderadas mediante /api/reviews.
+- Buscador de artículos, lugares y eventos.
+- Contacto por Web3Forms y WhatsApp.
+- Datos generales administrables desde Website Settings.
+- Diseño responsive y rutas amigables en Vercel.
+
+PRUEBA LOCAL
+1. CMS: cd studio-argentina-by-agustina-cms && npm run dev
+2. Web: desde la raíz, npx live-server --port=5500
+
+IMPORTANTE SOBRE REVIEWS
+El envío público usa la función /api/reviews y SANITY_WRITE_TOKEN. En Vercel debe existir la variable SANITY_WRITE_TOKEN. Para probar esa función localmente, usar `vercel dev` en lugar de live-server.
+
+ANTES DE PUBLICAR
+- Borrar contenido de prueba.
+- Cargar al menos una ciudad y categorías reales.
+- Completar Website Settings.
+- Probar un artículo, un lugar, un evento y una review aprobada.
+- Hacer commit y push solamente después de revisar.

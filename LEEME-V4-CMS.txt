@@ -1,0 +1,72 @@
+ARGENTINA BY AGUSTINA — ENTREGA V4 CMS
+======================================
+
+Esta entrega conserva la web pública y agrega el CMS completo de Sanity.
+
+MÓDULOS INCLUIDOS
+-----------------
+- Articles: portada, galería, contenido, ciudad, categorías y destacado.
+- Cities: ciudad, provincia/región, imagen, descripción, mapa y destacado.
+- Categories: categorías reutilizables para artículos, lugares y eventos.
+- Places: ciudad, categorías, dirección, mapa, galería, Instagram, web y precio.
+- Events: ciudad, categorías, inicio, finalización, ubicación, mapa y galería.
+- Reviews: nombre, país, email privado, estrellas, comentario y moderación.
+- Website settings: email, WhatsApp, Instagram, Calendly, SEO y textos principales.
+
+REVIEWS
+-------
+El panel separa automáticamente:
+- Pending reviews
+- Approved reviews
+- Rejected reviews
+- All reviews
+
+Para moderar una reseña, Agustina abre la reseña, cambia Moderation status y publica.
+La futura integración del formulario público guardará cada reseña inicialmente como Pending.
+
+IMPORTANTE SOBRE EL ARTÍCULO DE PRUEBA
+--------------------------------------
+El primer artículo fue creado con una categoría fija. Ahora las categorías son documentos
+administrables. Abrí el artículo de prueba, elegí una categoría nueva y volvé a publicarlo.
+
+CÓMO REEMPLAZAR
+---------------
+1. Hacé una copia de seguridad de tu carpeta actual.
+2. Copiá el contenido de esta entrega sobre la carpeta ArgentinaByAgustina-V2.
+3. Permití reemplazar los archivos cuando Windows lo pregunte.
+4. No borres tus imágenes hero.jpg y me.jpg.
+
+CÓMO PROBAR EL CMS
+------------------
+Abrí una terminal dentro de:
+
+studio-argentina-by-agustina-cms
+
+Ejecutá:
+
+npm install
+npm run dev
+
+Abrí:
+
+http://localhost:3333
+
+ORDEN RECOMENDADO PARA CARGAR CONTENIDO
+---------------------------------------
+1. Categories
+2. Cities
+3. Articles
+4. Places
+5. Events
+6. Reviews
+7. Website settings
+
+SIGUIENTE ETAPA
+---------------
+- Conectar la web pública con Sanity.
+- Crear el formulario público Leave a review.
+- Guardar cada review mediante una función segura de Vercel.
+- Mostrar solamente reviews aprobados.
+- Mostrar artículos, lugares y eventos publicados.
+
+No hagas git add, commit ni push hasta comprobar que el panel abre correctamente.

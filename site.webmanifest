@@ -1,0 +1,9 @@
+{
+  "name": "Argentina by Agustina",
+  "short_name": "Argentina by Agustina",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6eedf",
+  "theme_color": "#f6eedf",
+  "icons": [{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml"}]
+}
