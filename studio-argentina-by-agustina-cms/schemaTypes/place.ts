@@ -143,7 +143,7 @@ export const placeType = defineType({
       const prefix = featured ? '★ ' : ''
       return {
         title: `${prefix}${title}`,
-        subtitle: `${city || 'No city'}${active === false ? ' · Hidden' : ''}`,
+        subtitle: `${city || 'Ciudad sin indicar'}${active === false ? ' · Oculto' : ''}`,
         media,
       }
     },

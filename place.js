@@ -1,9 +1,136 @@
-const SANITY={projectId:'brjqcwkq',dataset:'production',apiVersion:'2025-02-19'};
-function esc(v=''){return String(v).replace(/[&<>\'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-async function fetchSanity(query,params={}){const p=new URLSearchParams({query,...Object.fromEntries(Object.entries(params).map(([k,v])=>[`$${k}`,JSON.stringify(v)]))});const r=await fetch(`https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${p}`,{headers:{Accept:'application/json'}});if(!r.ok)throw new Error(`Sanity request failed (${r.status})`);return(await r.json()).result;}
-function marks(text,ms=[],defs=[]){let h=esc(text||'');for(const m of ms){if(m==='strong')h=`<strong>${h}</strong>`;else if(m==='em')h=`<em>${h}</em>`;else{const d=defs.find(x=>x._key===m);if(d?._type==='link'&&d.href)h=`<a href="${esc(d.href)}" target="_blank" rel="noopener noreferrer">${h}</a>`}}return h;}
-function portable(blocks=[]){const out=[];let list=null;for(const b of blocks){if(b._type==='image'&&b.url){if(list){out.push(`</${list}>`);list=null}out.push(`<figure><img src="${esc(b.url)}" alt="${esc(b.alt||'')}" loading="lazy"><figcaption>${esc(b.caption||'')}</figcaption></figure>`);continue}if(b._type!=='block')continue;const c=(b.children||[]).map(ch=>marks(ch.text,ch.marks,b.markDefs)).join('');if(b.listItem){const w=b.listItem==='number'?'ol':'ul';if(list!==w){if(list)out.push(`</${list}>`);out.push(`<${w}>`);list=w}out.push(`<li>${c}</li>`);continue}if(list){out.push(`</${list}>`);list=null}const t=({h1:'h2',h2:'h2',h3:'h3',h4:'h4',blockquote:'blockquote'}[b.style]||'p');out.push(`<${t}>${c}</${t}>`)}if(list)out.push(`</${list}>`);return out.join('');}
-function gallery(items=[]){return items.map(i=>`<figure><img src="${esc(i.url)}" alt="${esc(i.alt||'')}" loading="lazy"><figcaption>${esc(i.caption||'')}</figcaption></figure>`).join('');}
-function meta(title,summary,canonical){document.title=`${title} | Argentina by Agustina`;document.querySelector('meta[name="description"]').content=summary||'Argentina travel recommendation by Agustina.';const l=document.createElement('link');l.rel='canonical';l.href=canonical;document.head.appendChild(l);}
-function bindShare(data){document.getElementById('share-detail').addEventListener('click',async()=>{try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);document.getElementById('share-detail').textContent='Link Copied!'}}catch(e){if(e.name!=='AbortError')console.error(e)}})}
-async function load(){const slug=new URLSearchParams(location.search).get('slug'),loading=document.getElementById('detail-loading'),detail=document.getElementById('detail'),error=document.getElementById('detail-error');if(!slug){loading.hidden=true;error.hidden=false;return}try{const q=`*[_type=="place"&&slug.current==$slug&&active!=false][0]{name,"slug":slug.current,shortDescription,address,mapUrl,instagramUrl,websiteUrl,priceLevel,"city":city->name,"categories":categories[]->title,"coverUrl":coverImage.asset->url,"coverAlt":coverImage.alt,description[]{...,"url":asset->url},gallery[]{...,"url":asset->url}}`;const x=await fetchSanity(q,{slug});if(!x)throw new Error('not found');meta(x.name,x.shortDescription,`https://www.argentinabyagustina.com/place.html?slug=${encodeURIComponent(x.slug)}`);document.getElementById('detail-title').textContent=x.name;document.getElementById('detail-summary').textContent=x.shortDescription||'';document.getElementById('detail-kicker').textContent=[x.city,...(x.categories||[])].filter(Boolean).join(' · ')||'Argentina';document.getElementById('detail-meta').textContent=[x.address,x.priceLevel&&x.priceLevel!=='unknown'?x.priceLevel:''].filter(Boolean).join(' · ');const cover=document.getElementById('detail-cover');if(x.coverUrl){cover.src=x.coverUrl;cover.alt=x.coverAlt||x.name;cover.hidden=false}document.getElementById('detail-body').innerHTML=portable(x.description||[]);const actions=document.getElementById('detail-actions');actions.innerHTML=[x.mapUrl&&`<a class="btn btn-primary" href="${esc(x.mapUrl)}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>`,x.websiteUrl&&`<a class="btn btn-outline" href="${esc(x.websiteUrl)}" target="_blank" rel="noopener noreferrer">Official Website</a>`,x.instagramUrl&&`<a class="btn btn-outline" href="${esc(x.instagramUrl)}" target="_blank" rel="noopener noreferrer">Instagram</a>`].filter(Boolean).join('');const g=document.getElementById('detail-gallery');if(x.gallery?.length){g.innerHTML=gallery(x.gallery);g.hidden=false}loading.hidden=true;detail.hidden=false;bindShare({title:x.name,text:x.shortDescription||'',url:location.href})}catch(e){console.error(e);loading.hidden=true;error.hidden=false}}load();
+const SANITY = {projectId: 'brjqcwkq', dataset: 'production', apiVersion: '2025-02-19'};
+
+function escapeHtml(value = '') {
+  return String(value).replace(/[&<>'"]/g, (character) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]));
+}
+
+function safeExternalUrl(value = '') {
+  try {
+    const url = new URL(String(value), window.location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch { return ''; }
+}
+
+async function fetchSanity(query, params = {}) {
+  const search = new URLSearchParams({query, ...Object.fromEntries(Object.entries(params).map(([key, value]) => [`$${key}`, JSON.stringify(value)]))});
+  const response = await fetch(`https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`, {headers:{Accept:'application/json'}});
+  if (!response.ok) throw new Error(`Sanity request failed (${response.status})`);
+  return (await response.json()).result;
+}
+
+function renderMarks(text, marks = [], markDefs = []) {
+  let html = escapeHtml(text || '');
+  for (const mark of marks) {
+    if (mark === 'strong') html = `<strong>${html}</strong>`;
+    else if (mark === 'em') html = `<em>${html}</em>`;
+    else {
+      const definition = markDefs.find((item) => item._key === mark);
+      const safeUrl = definition?._type === 'link' ? safeExternalUrl(definition.href) : '';
+      if (safeUrl) html = `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${html}</a>`;
+    }
+  }
+  return html;
+}
+
+function renderPortableText(blocks = []) {
+  const output = [];
+  let listType = null;
+  for (const block of blocks) {
+    if (block._type === 'image' && block.url) {
+      if (listType) { output.push(`</${listType}>`); listType = null; }
+      const safeImage = safeExternalUrl(block.url);
+      if (safeImage) output.push(`<figure><img src="${escapeHtml(safeImage)}" alt="${escapeHtml(block.alt || '')}" loading="lazy" decoding="async"><figcaption>${escapeHtml(block.caption || '')}</figcaption></figure>`);
+      continue;
+    }
+    if (block._type !== 'block') continue;
+    const content = (block.children || []).map((child) => renderMarks(child.text, child.marks, block.markDefs)).join('');
+    if (block.listItem) {
+      const wanted = block.listItem === 'number' ? 'ol' : 'ul';
+      if (listType !== wanted) { if (listType) output.push(`</${listType}>`); output.push(`<${wanted}>`); listType = wanted; }
+      output.push(`<li>${content}</li>`);
+      continue;
+    }
+    if (listType) { output.push(`</${listType}>`); listType = null; }
+    const tag = ({h1:'h2', h2:'h2', h3:'h3', h4:'h4', blockquote:'blockquote'}[block.style] || 'p');
+    output.push(`<${tag}>${content}</${tag}>`);
+  }
+  if (listType) output.push(`</${listType}>`);
+  return output.join('');
+}
+
+function renderGallery(items = []) {
+  return items.map((item) => {
+    const safeImage = safeExternalUrl(item.url);
+    return safeImage ? `<figure><img src="${escapeHtml(safeImage)}" alt="${escapeHtml(item.alt || '')}" loading="lazy" decoding="async"><figcaption>${escapeHtml(item.caption || '')}</figcaption></figure>` : '';
+  }).join('');
+}
+
+function updateMetadata(title, summary, canonical) {
+  document.title = `${title} | Argentina by Agustina`;
+  const description = document.querySelector('meta[name="description"]');
+  if (description) description.content = summary || 'Argentina travel recommendation by Agustina.';
+  const canonicalLink = document.createElement('link');
+  canonicalLink.rel = 'canonical';
+  canonicalLink.href = canonical;
+  document.head.appendChild(canonicalLink);
+}
+
+function bindShare(data) {
+  document.getElementById('share-detail')?.addEventListener('click', async () => {
+    try {
+      if (navigator.share) await navigator.share(data);
+      else {
+        await navigator.clipboard.writeText(location.href);
+        document.getElementById('share-detail').textContent = 'Link Copied!';
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') console.error(error);
+    }
+  });
+}
+
+async function loadPlace() {
+  const slug = new URLSearchParams(location.search).get('slug');
+  const loading = document.getElementById('detail-loading');
+  const detail = document.getElementById('detail');
+  const error = document.getElementById('detail-error');
+  if (!slug || slug.length > 160) { loading.hidden = true; error.hidden = false; return; }
+
+  try {
+    const query = `*[_type == "place" && slug.current == $slug && active != false][0]{name,"slug":slug.current,shortDescription,address,mapUrl,instagramUrl,websiteUrl,priceLevel,"city":city->name,"categories":categories[]->title,"coverUrl":coverImage.asset->url,"coverAlt":coverImage.alt,description[]{...,"url":asset->url},gallery[]{...,"url":asset->url}}`;
+    const place = await fetchSanity(query, {slug});
+    if (!place) throw new Error('Place not found');
+
+    updateMetadata(place.name, place.shortDescription, `https://www.argentinabyagustina.com/places/${encodeURIComponent(place.slug)}`);
+    document.getElementById('detail-title').textContent = place.name;
+    document.getElementById('detail-summary').textContent = place.shortDescription || '';
+    document.getElementById('detail-kicker').textContent = [place.city, ...(place.categories || [])].filter(Boolean).join(' · ') || 'Argentina';
+    document.getElementById('detail-meta').textContent = [place.address, place.priceLevel && place.priceLevel !== 'unknown' ? place.priceLevel : ''].filter(Boolean).join(' · ');
+
+    const cover = document.getElementById('detail-cover');
+    const safeCover = safeExternalUrl(place.coverUrl);
+    if (safeCover) { cover.src = safeCover; cover.alt = place.coverAlt || place.name; cover.hidden = false; }
+    document.getElementById('detail-body').innerHTML = renderPortableText(place.description || []);
+
+    const actions = [
+      [place.mapUrl, 'Open in Google Maps', 'btn btn-primary'],
+      [place.websiteUrl, 'Official Website', 'btn btn-outline'],
+      [place.instagramUrl, 'Instagram', 'btn btn-outline'],
+    ].map(([url, label, className]) => {
+      const safeUrl = safeExternalUrl(url);
+      return safeUrl ? `<a class="${className}" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${label}</a>` : '';
+    }).join('');
+    document.getElementById('detail-actions').innerHTML = actions;
+
+    const gallery = document.getElementById('detail-gallery');
+    if (place.gallery?.length) { gallery.innerHTML = renderGallery(place.gallery); gallery.hidden = false; }
+    loading.hidden = true;
+    detail.hidden = false;
+    bindShare({title: place.name, text: place.shortDescription || '', url: location.href});
+  } catch (loadError) {
+    console.error(loadError);
+    loading.hidden = true;
+    error.hidden = false;
+  }
+}
+loadPlace();
