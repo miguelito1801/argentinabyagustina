@@ -52,6 +52,54 @@ if (year) year.textContent = String(new Date().getFullYear());
 const pageUrl = document.getElementById('page-url');
 if (pageUrl) pageUrl.value = window.location.href;
 
+
+// Open the email composer in the most reliable way for each device.
+// Desktop browsers use Gmail Web; Android tries the Gmail app first; other
+// mobile devices use the configured mail application through mailto:.
+let contactEmail = 'argentinabyagustina@gmail.com';
+
+function emailMessageLinks(email) {
+  const subject = 'Argentina trip planning inquiry';
+  const body = "Hello Agustina, I'd like help planning my Argentina experience.";
+  const encodedEmail = encodeURIComponent(email);
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+  const mailto = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+  const gmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedEmail}&su=${encodedSubject}&body=${encodedBody}`;
+  const androidGmail = `intent://compose?to=${encodedEmail}&subject=${encodedSubject}&body=${encodedBody}#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(mailto)};end`;
+  return {mailto, gmailWeb, androidGmail};
+}
+
+function openEmailComposer(event) {
+  const link = event.currentTarget;
+  const email = link.dataset.emailAddress || contactEmail;
+  const {mailto, gmailWeb, androidGmail} = emailMessageLinks(email);
+  const userAgent = navigator.userAgent || '';
+  const isAndroid = /Android/i.test(userAgent);
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+
+  event.preventDefault();
+
+  if (isAndroid) {
+    // Opens Gmail's compose screen when the app is installed. Android uses the
+    // included mailto fallback when Gmail is unavailable.
+    window.location.href = androidGmail;
+    return;
+  }
+
+  if (isMobile) {
+    window.location.href = mailto;
+    return;
+  }
+
+  const composeWindow = window.open(gmailWeb, '_blank', 'noopener,noreferrer');
+  if (!composeWindow) window.location.href = mailto;
+}
+
+document.querySelectorAll('[data-email-compose]').forEach((link) => {
+  link.addEventListener('click', openEmailComposer);
+});
+
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 if (contactForm && formStatus) {
@@ -258,9 +306,10 @@ function applySettings(settings) {
     if (description) description.content = settings.seoDescription;
   }
   if (settings.email) {
-    document.querySelectorAll('[data-email-link]').forEach((link) => { link.href = `mailto:${settings.email}`; });
-    document.querySelectorAll('[data-email-button]').forEach((link) => {
-      link.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(settings.email)}`;
+    contactEmail = settings.email;
+    document.querySelectorAll('[data-email-link]').forEach((link) => {
+      link.href = `mailto:${settings.email}`;
+      link.dataset.emailAddress = settings.email;
     });
     document.querySelectorAll('[data-email-text]').forEach((element) => { element.textContent = settings.email; });
   }
@@ -411,7 +460,6 @@ if (reviewForm && reviewFormStatus) {
     if (!reviewForm.checkValidity()) { reviewForm.reportValidity(); return; }
 
     const data = Object.fromEntries(new FormData(reviewForm).entries());
-    const isLocalPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
     const endpoint = '/api/reviews';
     const originalText = submitButton.textContent;
     submitButton.textContent = 'Sending...';
@@ -420,23 +468,12 @@ if (reviewForm && reviewFormStatus) {
     reviewFormStatus.className = 'form-status';
 
     try {
-      if (isLocalPreview) {
-        throw new Error('The review form must be tested on the deployed Vercel website. Live Server cannot run the secure /api/reviews function.');
-      }
-
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {'Content-Type': 'application/json', Accept: 'application/json'},
         body: JSON.stringify(data),
       });
-
-      const responseText = await response.text();
-      let result = {};
-      if (responseText) {
-        try { result = JSON.parse(responseText); }
-        catch { throw new Error('The review service returned an invalid response. Please try again later.'); }
-      }
-
+      const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || 'The review could not be sent.');
       reviewForm.reset();
       reviewFormStatus.textContent = 'Thank you! Your review was sent to Agustina and is awaiting approval.';

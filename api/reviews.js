@@ -13,8 +13,6 @@ function allowedOrigin(origin) {
     'https://www.argentinabyagustina.com',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
   ].includes(origin);
 }
 
@@ -78,10 +76,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({mutations: [{create: document}]}),
     });
-    const responseText = await response.text();
-    let result = {};
-    try { result = responseText ? JSON.parse(responseText) : {}; }
-    catch { result = {message: responseText || 'Invalid response from Sanity.'}; }
+    const result = await response.json();
     if (!response.ok) {
       console.error('Sanity mutation failed:', result);
       return res.status(502).json({success: false, message: 'The review could not be saved. Please try again.'});
