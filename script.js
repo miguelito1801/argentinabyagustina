@@ -53,9 +53,10 @@ const pageUrl = document.getElementById('page-url');
 if (pageUrl) pageUrl.value = window.location.href;
 
 
-// Open the email composer in the most reliable way for each device.
-// Desktop browsers use Gmail Web; Android tries the Gmail app first; other
-// mobile devices use the configured mail application through mailto:.
+// Open the email composer without forcing mobile visitors into Gmail Web.
+// The link always keeps a real mailto: address, so Android/iPhone can use the
+// mail application selected by the visitor. Desktop clicks open Gmail Web for
+// convenience and fall back to the configured mail application if pop-ups are blocked.
 let contactEmail = 'argentinabyagustina@gmail.com';
 
 function emailMessageLinks(email) {
@@ -64,34 +65,34 @@ function emailMessageLinks(email) {
   const encodedEmail = encodeURIComponent(email);
   const encodedSubject = encodeURIComponent(subject);
   const encodedBody = encodeURIComponent(body);
-  const mailto = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
-  const gmailWeb = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedEmail}&su=${encodedSubject}&body=${encodedBody}`;
-  const androidGmail = `intent://compose?to=${encodedEmail}&subject=${encodedSubject}&body=${encodedBody}#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(mailto)};end`;
-  return {mailto, gmailWeb, androidGmail};
+  return {
+    mailto: `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`,
+    gmailWeb: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedEmail}&su=${encodedSubject}&body=${encodedBody}`,
+  };
+}
+
+function prepareEmailLinks() {
+  const {mailto} = emailMessageLinks(contactEmail);
+  document.querySelectorAll('[data-email-compose]').forEach((link) => {
+    link.href = mailto;
+    link.dataset.emailAddress = contactEmail;
+  });
 }
 
 function openEmailComposer(event) {
   const link = event.currentTarget;
   const email = link.dataset.emailAddress || contactEmail;
-  const {mailto, gmailWeb, androidGmail} = emailMessageLinks(email);
-  const userAgent = navigator.userAgent || '';
-  const isAndroid = /Android/i.test(userAgent);
-  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+  const {mailto, gmailWeb} = emailMessageLinks(email);
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+
+  // On phones/tablets, do not prevent the default mailto navigation. This lets
+  // the operating system open Gmail, Outlook, Apple Mail, Samsung Mail, etc.
+  if (isMobile) {
+    link.href = mailto;
+    return;
+  }
 
   event.preventDefault();
-
-  if (isAndroid) {
-    // Opens Gmail's compose screen when the app is installed. Android uses the
-    // included mailto fallback when Gmail is unavailable.
-    window.location.href = androidGmail;
-    return;
-  }
-
-  if (isMobile) {
-    window.location.href = mailto;
-    return;
-  }
-
   const composeWindow = window.open(gmailWeb, '_blank', 'noopener,noreferrer');
   if (!composeWindow) window.location.href = mailto;
 }
@@ -99,6 +100,7 @@ function openEmailComposer(event) {
 document.querySelectorAll('[data-email-compose]').forEach((link) => {
   link.addEventListener('click', openEmailComposer);
 });
+prepareEmailLinks();
 
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
@@ -182,6 +184,16 @@ function safeExternalUrl(value = '') {
   } catch { return ''; }
 }
 
+function safeEmail(value = '') {
+  const email = String(value).trim().toLowerCase();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
+}
+
+function safeWhatsAppNumber(value = '') {
+  const digits = String(value).replace(/\D/g, '');
+  return digits.length >= 8 && digits.length <= 15 ? digits : '';
+}
+
 function detailHref(type, slug) {
   const encoded = encodeURIComponent(slug);
   return ['localhost', '127.0.0.1'].includes(window.location.hostname)
@@ -221,7 +233,7 @@ function renderPlaces(places) {
   grid.classList.remove('is-loading'); grid.setAttribute('aria-busy', 'false');
   grid.innerHTML = places.map((place) => `
     <article class="cms-card reveal" data-content-type="places" data-category="${escapeHtml(normalizeSearch(place.category || 'All'))}">
-      ${place.imageUrl ? `<img class="cms-card-image" src="${escapeHtml(place.imageUrl)}" alt="${escapeHtml(place.imageAlt || place.name)}" loading="lazy" decoding="async">` : ''}
+      ${safeExternalUrl(place.imageUrl) ? `<img class="cms-card-image" src="${escapeHtml(safeExternalUrl(place.imageUrl))}" alt="${escapeHtml(place.imageAlt || place.name)}" loading="lazy" decoding="async">` : ''}
       <div class="cms-card-body">
         <span class="cms-card-kicker">${escapeHtml(place.city || 'Argentina')}${place.category ? ` · ${escapeHtml(place.category)}` : ''}</span>
         <h3>${escapeHtml(place.name)}</h3>
@@ -240,7 +252,7 @@ function renderEvents(events) {
   grid.classList.remove('is-loading'); grid.setAttribute('aria-busy', 'false');
   grid.innerHTML = events.map((event) => `
     <article class="cms-card reveal" data-content-type="events" data-category="events">
-      ${event.imageUrl ? `<img class="cms-card-image" src="${escapeHtml(event.imageUrl)}" alt="${escapeHtml(event.imageAlt || event.title)}" loading="lazy" decoding="async">` : ''}
+      ${safeExternalUrl(event.imageUrl) ? `<img class="cms-card-image" src="${escapeHtml(safeExternalUrl(event.imageUrl))}" alt="${escapeHtml(event.imageAlt || event.title)}" loading="lazy" decoding="async">` : ''}
       <div class="cms-card-body">
         <span class="cms-card-kicker">${escapeHtml(event.city || 'Argentina')}</span>
         <h3>${escapeHtml(event.title)}</h3>
@@ -276,7 +288,7 @@ function renderArticles(articles) {
   grid.classList.remove('is-loading'); grid.setAttribute('aria-busy', 'false');
   grid.innerHTML = articles.map((article) => `
     <article class="article-card reveal" data-content-type="articles" data-category="${escapeHtml(normalizeSearch(article.category || 'Articles'))}">
-      <div class="article-image dynamic-image" role="img" aria-label="${escapeHtml(article.imageAlt || article.title)}"${article.imageUrl ? ` style="background-image:url('${escapeHtml(article.imageUrl)}')"` : ''}></div>
+      <div class="article-image dynamic-image" role="img" aria-label="${escapeHtml(article.imageAlt || article.title)}"${safeExternalUrl(article.imageUrl) ? ` style="background-image:url('${escapeHtml(safeExternalUrl(article.imageUrl))}')"` : ''}></div>
       <div class="article-body">
         <span>${escapeHtml(article.city || article.category || 'Argentina')}</span>
         <h3>${escapeHtml(article.title)}</h3>
@@ -306,12 +318,16 @@ function applySettings(settings) {
     if (description) description.content = settings.seoDescription;
   }
   if (settings.email) {
-    contactEmail = settings.email;
-    document.querySelectorAll('[data-email-link]').forEach((link) => {
-      link.href = `mailto:${settings.email}`;
-      link.dataset.emailAddress = settings.email;
-    });
-    document.querySelectorAll('[data-email-text]').forEach((element) => { element.textContent = settings.email; });
+    const validatedEmail = safeEmail(settings.email);
+    if (validatedEmail) {
+      contactEmail = validatedEmail;
+      document.querySelectorAll('[data-email-link]').forEach((link) => {
+        link.href = `mailto:${validatedEmail}`;
+        link.dataset.emailAddress = validatedEmail;
+      });
+      prepareEmailLinks();
+      document.querySelectorAll('[data-email-text]').forEach((element) => { element.textContent = validatedEmail; });
+    }
   }
   if (settings.instagramUrl) {
     document.querySelectorAll('[data-instagram-link]').forEach((link) => { const url = safeExternalUrl(settings.instagramUrl); if (url) { link.href = url; link.hidden = false; } });
@@ -320,9 +336,12 @@ function applySettings(settings) {
     document.querySelectorAll('[data-calendly-link]').forEach((link) => { const url = safeExternalUrl(settings.calendlyUrl); if (url) link.href = url; });
   }
   if (settings.whatsappNumber) {
-    const message = encodeURIComponent("Hello Agustina, I'd like help planning my Argentina experience.");
-    document.querySelectorAll('[data-whatsapp-link]').forEach((link) => { link.href = `https://wa.me/${settings.whatsappNumber}?text=${message}`; });
-    document.querySelectorAll('[data-whatsapp-text]').forEach((element) => { element.textContent = `+${settings.whatsappNumber}`; });
+    const validatedNumber = safeWhatsAppNumber(settings.whatsappNumber);
+    if (validatedNumber) {
+      const message = encodeURIComponent("Hello Agustina, I'd like help planning my Argentina experience.");
+      document.querySelectorAll('[data-whatsapp-link]').forEach((link) => { link.href = `https://wa.me/${validatedNumber}?text=${message}`; });
+      document.querySelectorAll('[data-whatsapp-text]').forEach((element) => { element.textContent = `+${validatedNumber}`; });
+    }
   }
 }
 

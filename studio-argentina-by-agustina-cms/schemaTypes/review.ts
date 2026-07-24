@@ -29,11 +29,11 @@ export const reviewType = defineType({
       type: 'number',
       options: {
         list: [
-          {title: '★ 1 star', value: 1},
-          {title: '★★ 2 stars', value: 2},
-          {title: '★★★ 3 stars', value: 3},
-          {title: '★★★★ 4 stars', value: 4},
-          {title: '★★★★★ 5 stars', value: 5},
+          {title: '★ 1 estrella', value: 1},
+          {title: '★★ 2 estrellas', value: 2},
+          {title: '★★★ 3 estrellas', value: 3},
+          {title: '★★★★ 4 estrellas', value: 4},
+          {title: '★★★★★ 5 estrellas', value: 5},
         ],
         layout: 'radio',
       },
@@ -111,7 +111,7 @@ export const reviewType = defineType({
     prepare({title, country, rating, status}) {
       const icon = status === 'approved' ? '✅' : status === 'rejected' ? '❌' : '⏳'
       const stars = '★'.repeat(Number(rating || 0))
-      return {title: `${icon} ${title}`, subtitle: `${stars} · ${country || 'No country'}`}
+      return {title: `${icon} ${title}`, subtitle: `${stars} · ${country || 'País sin indicar'}`}
     },
   },
 })

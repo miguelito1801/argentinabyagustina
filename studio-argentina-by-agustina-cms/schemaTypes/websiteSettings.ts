@@ -52,7 +52,7 @@ export const websiteSettingsType = defineType({
   ],
   preview: {
     prepare() {
-      return {title: 'Argentina by Agustina — Website settings'}
+      return {title: 'Argentina by Agustina — Datos del sitio'}
     },
   },
 })

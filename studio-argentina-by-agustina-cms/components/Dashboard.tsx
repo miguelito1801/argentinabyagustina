@@ -95,6 +95,7 @@ export function Dashboard() {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
   const [updatedAt, setUpdatedAt] = React.useState<Date | null>(null)
+  const [helpTopic, setHelpTopic] = React.useState<'publicar' | 'review' | 'contacto' | 'borrador'>('publicar')
 
   const greeting = React.useMemo(() => {
     const hour = new Date().getHours()
@@ -261,7 +262,7 @@ export function Dashboard() {
               <Button
                 text="Abrir manual de ayuda"
                 mode="ghost"
-                onClick={() => window.open(`${window.location.origin}${base}/GUIA-AGUSTINA.html`, '_blank', 'noopener,noreferrer')}
+                onClick={() => window.open('https://www.argentinabyagustina.com/LEEME-AGUSTINA.html', '_blank', 'noopener,noreferrer')}
               />
               <Button
                 text="Ver la página pública"
@@ -271,6 +272,30 @@ export function Dashboard() {
                 }
               />
             </Flex>
+          </Stack>
+        </Card>
+
+        <Card padding={[4, 5]} radius={4} shadow={1} style={{background: '#fffaf6'}}>
+          <Stack space={4}>
+            <Stack space={2}>
+              <Text size={1} weight="bold" style={{color: '#8b2f32', letterSpacing: '0.08em'}}>
+                AYUDITA RÁPIDA
+              </Text>
+              <Heading size={2}>Agus, ¿qué necesitás hacer?</Heading>
+              <Text muted>Elegí una opción y el panel te recuerda los pasos, sin palabras técnicas.</Text>
+            </Stack>
+            <Flex gap={2} wrap="wrap">
+              <Button text="Publicar algo" tone={helpTopic === 'publicar' ? 'primary' : 'default'} mode={helpTopic === 'publicar' ? 'default' : 'ghost'} onClick={() => setHelpTopic('publicar')} />
+              <Button text="Aprobar una reseña" tone={helpTopic === 'review' ? 'primary' : 'default'} mode={helpTopic === 'review' ? 'default' : 'ghost'} onClick={() => setHelpTopic('review')} />
+              <Button text="Cambiar contacto" tone={helpTopic === 'contacto' ? 'primary' : 'default'} mode={helpTopic === 'contacto' ? 'default' : 'ghost'} onClick={() => setHelpTopic('contacto')} />
+              <Button text="Entender borradores" tone={helpTopic === 'borrador' ? 'primary' : 'default'} mode={helpTopic === 'borrador' ? 'default' : 'ghost'} onClick={() => setHelpTopic('borrador')} />
+            </Flex>
+            <Card padding={4} radius={3} tone="primary">
+              {helpTopic === 'publicar' && <Text>Elegí Artículos, Lugares o Eventos → pulsá + → completá los campos → revisá → pulsá Publicar.</Text>}
+              {helpTopic === 'review' && <Text>Entrá en Reseñas pendientes → leé el comentario → elegí Aprobada o Rechazada → pulsá Publicar.</Text>}
+              {helpTopic === 'contacto' && <Text>Entrá en Datos de contacto → cambiá email, WhatsApp o Instagram → pulsá Publicar.</Text>}
+              {helpTopic === 'borrador' && <Text>Borrador no se ve públicamente. Publicado sí. Si aparecen ambos, pulsá Publicar para actualizar la web.</Text>}
+            </Card>
           </Stack>
         </Card>
 
@@ -322,7 +347,7 @@ export function Dashboard() {
 
         <Box paddingY={3}>
           <Text size={1} muted align="center">
-            Argentina by Agustina CMS · Versión 1.1 DIAMOND · Desarrollado por Miguel Torres ♡
+            Argentina by Agustina CMS · Versión 1.1 DIAMOND · Entrega final · Desarrollado por Miguel Torres ♡
           </Text>
         </Box>
       </Stack>

@@ -4,6 +4,13 @@ function escapeHtml(value = '') {
   return String(value).replace(/[&<>'"]/g, (character) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]));
 }
 
+function safeExternalUrl(value = '') {
+  try {
+    const url = new URL(String(value), window.location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch { return ''; }
+}
+
 function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '';
@@ -26,7 +33,10 @@ function renderMarks(text, marks = [], markDefs = []) {
     else if (mark === 'underline') html = `<u>${html}</u>`;
     else {
       const def = markDefs.find((item) => item._key === mark);
-      if (def?._type === 'link' && def.href) html = `<a href="${escapeHtml(def.href)}" target="_blank" rel="noopener noreferrer">${html}</a>`;
+      if (def?._type === 'link' && def.href) {
+        const safeUrl = safeExternalUrl(def.href);
+        if (safeUrl) html = `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${html}</a>`;
+      }
     }
   }
   return html;
@@ -38,7 +48,8 @@ function renderPortableText(blocks = []) {
   for (const block of blocks) {
     if (block._type === 'image' && block.url) {
       if (listType) { out.push(`</${listType}>`); listType = null; }
-      out.push(`<figure><img src="${escapeHtml(block.url)}" alt="${escapeHtml(block.alt || '')}" loading="lazy"><figcaption>${escapeHtml(block.caption || '')}</figcaption></figure>`);
+      const safeImage = safeExternalUrl(block.url);
+      if (safeImage) out.push(`<figure><img src="${escapeHtml(safeImage)}" alt="${escapeHtml(block.alt || '')}" loading="lazy" decoding="async"><figcaption>${escapeHtml(block.caption || '')}</figcaption></figure>`);
       continue;
     }
     if (block._type !== 'block') continue;
@@ -82,11 +93,15 @@ async function loadArticle() {
     document.getElementById('article-kicker').textContent = [article.city, ...(article.categories || [])].filter(Boolean).join(' · ') || 'Argentina';
     document.getElementById('article-meta').textContent = article.publishedAt ? `Published ${formatDate(article.publishedAt)}` : '';
     const cover = document.getElementById('article-cover');
-    if (article.coverUrl) { cover.src = article.coverUrl; cover.alt = article.coverAlt || article.title; cover.hidden = false; }
+    const safeCover = safeExternalUrl(article.coverUrl);
+    if (safeCover) { cover.src = safeCover; cover.alt = article.coverAlt || article.title; cover.hidden = false; }
     document.getElementById('article-body').innerHTML = renderPortableText(article.body || []);
     const gallery = document.getElementById('article-gallery');
     if (article.gallery?.length) {
-      gallery.innerHTML = article.gallery.map((image) => `<figure><img src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt || '')}" loading="lazy"><figcaption>${escapeHtml(image.caption || '')}</figcaption></figure>`).join('');
+      gallery.innerHTML = article.gallery.map((image) => {
+        const safeImage = safeExternalUrl(image.url);
+        return safeImage ? `<figure><img src="${escapeHtml(safeImage)}" alt="${escapeHtml(image.alt || '')}" loading="lazy" decoding="async"><figcaption>${escapeHtml(image.caption || '')}</figcaption></figure>` : '';
+      }).join('');
       gallery.hidden = false;
     }
     loading.hidden = true;
