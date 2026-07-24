@@ -1,305 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Argentina by Agustina</title>
+  <meta name="theme-color" content="#f6eedf">
+  <meta name="description" content="Personalized Argentina travel planning, local recommendations, relocation support and private concierge services with Agustina, a bilingual Buenos Aires local.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <title>Argentina Travel Planning & Local Concierge | Argentina by Agustina</title>
+  <link rel="canonical" href="https://www.argentinabyagustina.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Argentina by Agustina">
+  <meta property="og:title" content="Argentina Travel Planning & Local Concierge">
+  <meta property="og:description" content="Discover Argentina through personalized travel planning, bilingual local expertise and thoughtful concierge support.">
+  <meta property="og:url" content="https://www.argentinabyagustina.com/">
+  <meta property="og:image" content="https://www.argentinabyagustina.com/image/hero.jpg">
+  <meta property="og:image:alt" content="A scenic Argentina travel experience curated by Agustina">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Argentina Travel Planning & Local Concierge">
+  <meta name="twitter:description" content="Personalized Argentina travel planning and local concierge support with Agustina.">
+  <meta name="twitter:image" content="https://www.argentinabyagustina.com/image/hero.jpg">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link rel="preload" as="image" href="image/hero.webp" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Argentina by Agustina",
+    "url": "https://www.argentinabyagustina.com/",
+    "image": "https://www.argentinabyagustina.com/image/hero.jpg",
+    "description": "Personalized Argentina travel planning, bilingual local expertise, relocation support and concierge services.",
+    "email": "mailto:argentinabyagustina@gmail.com",
+    "telephone": "+54 9 11 5409-8622",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Argentina"
+    },
+    "availableLanguage": ["English", "Spanish"]
+  }
+  </script>
 </head>
 
 <body>
-  <nav class="navbar">
-    <a href="#home" class="logo">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <nav class="navbar" aria-label="Primary navigation">
+    <a href="#home" class="logo" aria-label="Argentina by Agustina, home">
       <span>Argentina</span>
       <small>by Agustina</small>
     </a>
 
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
 
     <ul class="nav-links" id="primary-navigation">
       <li><a href="#about">About Me</a></li>
       <li><a href="#services">What I Do</a></li>
+      <li><a href="#places">Places</a></li>
+      <li><a href="#events">Events</a></li>
       <li><a href="#reviews">Reviews</a></li>
       <li><a href="#articles">Articles</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="#contact" class="nav-button">Book a Call</a></li>
+      <li><a href="#contact" class="nav-button">Plan My Trip</a></li>
     </ul>
   </nav>
 
   <header class="hero" id="home">
-    <div class="hero-overlay"></div>
-
+    <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content reveal">
       <p class="eyebrow">Boutique Argentina Travel Concierge</p>
-      <h1>Discover Argentina,<br>beautifully planned.</h1>
-      <p class="hero-text">
-        Personalized travel planning, local expertise, relocation support,
-        and unforgettable experiences crafted around you.
-      </p>
-
+      <h1 id="hero-title">Discover Argentina,<br>beautifully planned.</h1>
+      <p class="hero-text" id="hero-subtitle">Personalized travel planning, local expertise, relocation support, and unforgettable experiences crafted around you.</p>
       <div class="hero-buttons">
-        <a href="#contact" class="btn btn-primary">Schedule a Free Call</a>
+        <a href="#contact" class="btn btn-primary">Plan Your Trip</a>
         <a href="#services" class="btn btn-light">Explore Services</a>
       </div>
     </div>
   </header>
 
-  <main>
-    <section class="about section" id="about">
-      <div class="section-label reveal">About</div>
+  <aside class="trust-strip" aria-label="Why travel with Agustina">
+    <span>Patagonia native</span>
+    <span>Buenos Aires local</span>
+    <span>Bilingual service</span>
+    <span>Personalized planning</span>
+  </aside>
 
+  <main id="main-content">
+    <section class="about section" id="about" aria-labelledby="about-title">
+      <div class="section-label reveal">About</div>
       <div class="about-grid">
         <div class="about-photo-wrap reveal">
-          <div class="textile-frame"></div>
-          <img src="./image/me.jpg" alt="Agustina Ponce" class="about-photo">
+          <div class="textile-frame" aria-hidden="true"></div>
+          <img src="./image/me.jpg" alt="Agustina Ponce, bilingual Argentina travel concierge" class="about-photo" width="900" height="1100" loading="lazy" decoding="async">
         </div>
 
         <div class="about-content reveal">
           <p class="eyebrow dark">Meet your local host</p>
-          <h2>About Me</h2>
-
-          <p class="lead">
-            Thinking of a trip or move to Argentina but not sure where to start?
-            Outsource everything to me.
-          </p>
-
-          <p>
-            Hello! My name is Agustina Ponce. I was born in Patagonia, spent part
-            of my childhood in Texas, and have been living in Buenos Aires for the
-            last 15 years.
-          </p>
-
-          <p>
-            I am fluent in both Spanish and English, have 4 years of experience in
-            the Argentine tourism industry, and hold a BA in hospitality from Gato
-            Duma University.
-          </p>
-
-          <p>
-            After years of working in a formal hotel environment, I started this
-            business to personally help tourists, digital nomads, expats, and
-            retirees discover all the wonderful things Argentina has to offer.
-          </p>
-
-          <div class="about-highlights">
-            <span>Patagonia Native</span>
-            <span>Buenos Aires Local</span>
-            <span>English & Spanish</span>
-            <span>Hospitality Professional</span>
+          <h2 id="about-title">About Me</h2>
+          <p class="about-signature">I don't sell tours. I help people feel at home in Argentina.</p>
+          <p class="lead">Thinking of a trip or move to Argentina but not sure where to start? Outsource everything to me.</p>
+          <p>Hello! My name is Agustina Ponce. I was born in Patagonia, spent part of my childhood in Texas, and have been living in Buenos Aires for the last 15 years.</p>
+          <p>I am fluent in both Spanish and English, have 4 years of experience in the Argentine tourism industry, and hold a BA in hospitality from Gato Duma University.</p>
+          <p>After years of working in a formal hotel environment, I started this business to personally help tourists, digital nomads, expats, and retirees discover all the wonderful things Argentina has to offer.</p>
+          <div class="about-highlights" aria-label="Professional highlights">
+            <span>Patagonia Native</span><span>Buenos Aires Local</span><span>English & Spanish</span><span>Hospitality Professional</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="services section pattern-section" id="services">
+    <section class="services section pattern-section" id="services" aria-labelledby="services-title">
       <div class="section-heading reveal">
         <p class="eyebrow dark">Tailored support</p>
-        <h2>What I Do</h2>
-        <p>
-          Every service is tailored to your travel goals, group size, timeline,
-          and the kind of Argentina experience you want to have.
-        </p>
+        <h2 id="services-title">What I Do</h2>
+        <p>Every service is tailored to your travel goals, group size, timeline, and the kind of Argentina experience you want to have.</p>
       </div>
 
       <div class="services-grid">
-        <article class="service-card reveal">
-          <div class="service-icon">✈</div>
-          <h3>Custom Itineraries</h3>
-          <p>Personalized trip agendas with restaurants, cafés, museums, culture, sports, parks, and nature.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">⌂</div>
-          <h3>Lodging Recommendations</h3>
-          <p>Hotel, Airbnb, and neighborhood guidance to help you find the right stay within your budget.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">◌</div>
-          <h3>Tour Guide & Photography</h3>
-          <p>Local guidance, translation support, and photos so you can enjoy the experience fully.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">⇄</div>
-          <h3>Transportation</h3>
-          <p>Private transportation coordination from the airport or to any destination of your choice.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">☼</div>
-          <h3>Day Trips</h3>
-          <p>Discover places outside Buenos Aires like Luján, Nordelta, Colonia, and more.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">⌁</div>
-          <h3>Regional Trip Planning</h3>
-          <p>Patagonia, Andes, wine country, or trusted local contacts in your chosen destination.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">♡</div>
-          <h3>Child & Pet Care</h3>
-          <p>Safe and caring support for children or pets when you want time for a date night or event.</p>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="service-icon">◎</div>
-          <h3>Relocation Concierge</h3>
-          <p>On-the-ground representation, translation, home scouting, and support for long-term stays.</p>
-        </article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">✈</div><h3>Custom Itineraries</h3><p>Personalized trip agendas with restaurants, cafés, museums, culture, sports, parks, and nature.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">⌂</div><h3>Lodging Recommendations</h3><p>Hotel, Airbnb, and neighborhood guidance to help you find the right stay within your budget.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">◌</div><h3>Tour Guide & Photography</h3><p>Local guidance, translation support, and photos so you can enjoy the experience fully.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">⇄</div><h3>Transportation</h3><p>Private transportation coordination from the airport or to any destination of your choice.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">☼</div><h3>Day Trips</h3><p>Discover places outside Buenos Aires like Luján, Nordelta, Colonia, and more.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">⌁</div><h3>Regional Trip Planning</h3><p>Patagonia, Andes, wine country, or trusted local contacts in your chosen destination.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">♡</div><h3>Child & Pet Care</h3><p>Safe and caring support for children or pets when you want time for a date night or event.</p></article>
+        <article class="service-card reveal"><div class="service-icon" aria-hidden="true">◎</div><h3>Relocation Concierge</h3><p>On-the-ground representation, translation, home scouting, and support for long-term stays.</p></article>
       </div>
     </section>
 
-    <section class="reviews section" id="reviews">
+    <section class="content-search-section section" aria-labelledby="explore-title">
       <div class="section-heading reveal">
-        <p class="eyebrow dark">Client experiences</p>
-        <h2>Reviews</h2>
+        <p class="eyebrow dark">Find your inspiration</p>
+        <h2 id="explore-title">Explore Argentina</h2>
+        <p>Search recommendations, events, and local stories published by Agustina.</p>
       </div>
-
-      <div class="reviews-grid">
-        <article class="review-card reveal">
-          <div class="stars">★★★★★</div>
-          <h3>“Effortless and personal.”</h3>
-          <p>Agustina made our Buenos Aires stay feel easy from the first call. Every recommendation felt thoughtful and local.</p>
-          <span>— Emily, USA</span>
-        </article>
-
-        <article class="review-card reveal">
-          <div class="stars">★★★★★</div>
-          <h3>“Exactly what we needed.”</h3>
-          <p>She helped us choose neighborhoods, plan logistics, and feel confident before arriving in Argentina.</p>
-          <span>— James, UK</span>
-        </article>
-
-        <article class="review-card reveal">
-          <div class="stars">★★★★★</div>
-          <h3>“A true local guide.”</h3>
-          <p>From restaurants to day trips, everything was beautifully organized and matched our style of travel.</p>
-          <span>— Sofia, Canada</span>
-        </article>
+      <div class="content-search reveal" role="search">
+        <label class="sr-only" for="content-search">Search the website</label>
+        <input id="content-search" type="search" placeholder="Try Buenos Aires, food, Patagonia..." autocomplete="off">
+        <label class="sr-only" for="content-type">Content type</label>
+        <select id="content-type">
+          <option value="all">All content</option>
+          <option value="places">Places</option>
+          <option value="events">Events</option>
+          <option value="articles">Articles</option>
+        </select>
+      </div>
+      <div class="filter-chips reveal" id="filter-chips" aria-label="Filter by category">
+        <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+      </div>
+      <div class="search-feedback" id="search-feedback">
+        <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+        <a class="search-help-link" id="search-help-link" href="#contact" hidden>No results? Ask Agustina for a personal recommendation →</a>
       </div>
     </section>
 
-
-    <section class="articles section" id="articles">
+    <section class="places section pattern-section" id="places" aria-labelledby="places-title">
       <div class="section-heading reveal">
-        <p class="eyebrow dark">Latest from Argentina</p>
-        <h2>Notes from the City</h2>
-        <p>
-          A future space for weekly recommendations, city updates, food spots,
-          neighborhood guides, and what to do in Buenos Aires.
-        </p>
+        <p class="eyebrow dark">Local recommendations</p>
+        <h2 id="places-title">Places to Discover</h2>
+        <p>Handpicked restaurants, neighborhoods, attractions, and local favorites across Argentina.</p>
       </div>
-
-      <div class="article-grid">
-        <article class="article-card reveal">
-          <div class="article-image article-one"></div>
-          <div class="article-body">
-            <span>Buenos Aires</span>
-            <h3>Where to eat in Palermo this week</h3>
-            <a href="#contact">Coming soon →</a>
-          </div>
-        </article>
-
-        <article class="article-card reveal">
-          <div class="article-image article-two"></div>
-          <div class="article-body">
-            <span>Local Guide</span>
-            <h3>How to plan your first days in the city</h3>
-            <a href="#contact">Coming soon →</a>
-          </div>
-        </article>
-
-        <article class="article-card reveal">
-          <div class="article-image article-three"></div>
-          <div class="article-body">
-            <span>Weekend Ideas</span>
-            <h3>Simple day trips from Buenos Aires</h3>
-            <a href="#contact">Coming soon →</a>
-          </div>
-        </article>
+      <div class="content-grid" id="places-grid" aria-live="polite">
+        <p class="cms-empty">Agustina’s recommendations will appear here soon.</p>
       </div>
     </section>
 
-    <section class="contact section pattern-section" id="contact">
+    <section class="events section" id="events" aria-labelledby="events-title">
+      <div class="section-heading reveal">
+        <p class="eyebrow dark">What’s happening</p>
+        <h2 id="events-title">Upcoming Events</h2>
+        <p>Selected cultural events, festivals, shows, and experiences worth adding to your itinerary.</p>
+      </div>
+      <div class="content-grid" id="events-grid" aria-live="polite">
+        <p class="cms-empty">New events will appear here as soon as they are published.</p>
+      </div>
+    </section>
+
+    <section class="reviews section pattern-section" id="reviews" aria-labelledby="reviews-title">
+      <div class="section-heading reveal"><p class="eyebrow dark">Client experiences</p><h2 id="reviews-title">Reviews</h2></div>
+      <div class="reviews-grid is-loading" id="reviews-grid" aria-live="polite" aria-busy="true">
+        <article class="content-skeleton" aria-hidden="true"></article>
+        <article class="content-skeleton" aria-hidden="true"></article>
+        <article class="content-skeleton" aria-hidden="true"></article>
+      </div>
+      <div class="review-cta reveal">
+        <p class="eyebrow dark">Travelers make this community</p>
+        <h3>Did Agustina help make your trip special?</h3>
+        <p>Share your experience. Your review will be checked before it appears publicly.</p>
+        <button class="btn btn-primary review-open-button" type="button" id="open-review-modal">Leave a Review</button>
+      </div>
+    </section>
+
+    <div class="review-modal" id="review-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="review-modal-title" aria-describedby="review-modal-description">
+      <div class="review-modal-backdrop" data-close-review-modal></div>
+      <div class="review-modal-panel" role="document">
+        <button class="review-modal-close" type="button" aria-label="Close review form" data-close-review-modal>×</button>
+        <p class="eyebrow dark">Share your experience</p>
+        <h2 id="review-modal-title">Leave a Review</h2>
+        <p class="review-modal-intro" id="review-modal-description">Thank you for taking a moment to help other travelers. Reviews are published only after Agustina approves them.</p>
+        <form id="review-form" class="review-form" novalidate>
+          <input type="hidden" name="formStartedAt" id="review-form-started-at" value="">
+          <div class="review-form-grid">
+            <label>Traveler name
+              <input type="text" name="name" minlength="2" maxlength="100" autocomplete="name" required>
+            </label>
+            <label>Country
+              <input type="text" name="country" minlength="2" maxlength="80" autocomplete="country-name" required>
+            </label>
+          </div>
+          <label>Email <span>(private, optional)</span>
+            <input type="email" name="email" maxlength="160" autocomplete="email">
+          </label>
+          <fieldset class="rating-fieldset">
+            <legend>Your rating</legend>
+            <div class="star-rating" aria-label="Choose a rating from 1 to 5 stars">
+              <input type="radio" id="rating-5" name="rating" value="5" required><label for="rating-5" title="5 stars">★</label>
+              <input type="radio" id="rating-4" name="rating" value="4"><label for="rating-4" title="4 stars">★</label>
+              <input type="radio" id="rating-3" name="rating" value="3"><label for="rating-3" title="3 stars">★</label>
+              <input type="radio" id="rating-2" name="rating" value="2"><label for="rating-2" title="2 stars">★</label>
+              <input type="radio" id="rating-1" name="rating" value="1"><label for="rating-1" title="1 star">★</label>
+            </div>
+          </fieldset>
+          <label>Your review
+            <textarea name="comment" rows="6" minlength="20" maxlength="1200" placeholder="Tell other travelers about your experience..." required></textarea>
+          </label>
+          <label class="review-honeypot" aria-hidden="true">Website
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+          <label class="review-consent"><input type="checkbox" name="consent" required> I agree that my name, country, rating and review may be published on this website after moderation.</label>
+          <button class="btn btn-primary review-submit" type="submit">Send Review</button>
+          <p class="form-status" id="review-form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+
+    <section class="articles section" id="articles" aria-labelledby="articles-title">
+      <div class="section-heading reveal">
+        <p class="eyebrow dark">Latest from Argentina</p><h2 id="articles-title">Notes from the City</h2>
+        <p>Weekly recommendations, city updates, food spots, neighborhood guides, and ideas for exploring Argentina.</p>
+      </div>
+      <div class="article-grid is-loading" id="articles-grid" aria-live="polite" aria-busy="true">
+        <article class="content-skeleton" aria-hidden="true"></article>
+        <article class="content-skeleton" aria-hidden="true"></article>
+        <article class="content-skeleton" aria-hidden="true"></article>
+      </div>
+    </section>
+
+    <section class="newsletter section" id="newsletter" aria-labelledby="newsletter-title">
+      <div class="newsletter-card reveal">
+        <div>
+          <p class="eyebrow">Local notes, thoughtfully sent</p>
+          <h2 id="newsletter-title">A little Argentina in your inbox.</h2>
+          <p>Occasional travel ideas, local recommendations, and useful updates. No noise, no daily emails.</p>
+        </div>
+        <form class="newsletter-form" id="newsletter-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="c7894d50-970f-4807-805d-0a1c4159ca93">
+          <input type="hidden" name="subject" value="New newsletter subscriber — Argentina by Agustina">
+          <input type="hidden" name="from_name" value="Argentina by Agustina Website">
+          <input type="checkbox" name="botcheck" class="hidden-field" tabindex="-1" autocomplete="off">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" type="email" name="email" placeholder="you@email.com" autocomplete="email" required maxlength="120">
+          <button class="btn btn-primary" type="submit">Join the list</button>
+          <p class="form-status" id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="contact section pattern-section" id="contact" aria-labelledby="contact-title">
       <div class="contact-grid">
         <div class="contact-info reveal">
-          <p class="eyebrow dark">Let’s begin</p>
-          <h2>Let’s plan your Argentina experience.</h2>
-          <p>
-            Schedule a quick consultation or send a few details about your trip.
-            All questions are optional — answer what you can and I’ll take it from there.
-          </p>
-
+          <p class="eyebrow dark">Let’s begin</p><h2 id="contact-title">Let’s plan your Argentina experience.</h2>
+          <p>Send a few details about your trip and I’ll get back to you as soon as possible. You can also contact me directly through WhatsApp for a faster reply.</p>
           <div class="contact-actions">
-            <a href="#" class="btn btn-primary">Calendly Link</a>
-            <a href="mailto:hello@argentinabyagustina.com" class="btn btn-outline">Email Me</a>
+            <a href="https://wa.me/5491154098622?text=Hello%20Agustina%2C%20I%27d%20like%20help%20planning%20my%20Argentina%20experience." class="btn btn-whatsapp" data-whatsapp-link target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=argentinabyagustina%40gmail.com" class="btn btn-outline" data-email-button target="_blank" rel="noopener noreferrer">Email Me</a>
+          </div>
+          <div class="contact-details">
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/5491154098622" target="_blank" rel="noopener noreferrer" data-whatsapp-link data-whatsapp-text>+54 9 11 5409-8622</a></p>
+            <p><strong>Email:</strong> <a href="mailto:argentinabyagustina@gmail.com" data-email-link data-email-text>argentinabyagustina@gmail.com</a></p>
           </div>
         </div>
 
-        <form class="contact-form reveal">
-          <label>
-            Primary contact name
-            <input type="text" name="name" placeholder="Your name">
-          </label>
+        <form class="contact-form reveal" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="c7894d50-970f-4807-805d-0a1c4159ca93">
+          <input type="hidden" name="subject" value="New inquiry from Argentina by Agustina">
+          <input type="hidden" name="from_name" value="Argentina by Agustina Website">
+          <input type="hidden" name="page_url" id="page-url" value="">
+          <input type="checkbox" name="botcheck" class="hidden-field" tabindex="-1" autocomplete="off">
 
-          <label>
-            Primary contact email
-            <input type="email" name="email" placeholder="you@email.com">
-          </label>
+          <label>Primary contact name *<input type="text" name="name" placeholder="Your name" required autocomplete="name" maxlength="80"></label>
+          <label>Primary contact email *<input type="email" name="email" placeholder="you@email.com" required autocomplete="email" maxlength="120"></label>
+          <label>Nationality<input type="text" name="nationality" placeholder="Your nationality" autocomplete="country-name" maxlength="80"></label>
+          <label>Travel dates / trip duration<input type="text" name="dates" placeholder="Approximate dates are fine" maxlength="120"></label>
+          <label>Services you are interested in<textarea name="services" rows="4" placeholder="Trip planning, lodging, relocation, transportation..." maxlength="1000"></textarea></label>
+          <label>Additional information *<textarea name="message" rows="5" placeholder="Tell me a little about your goals for Argentina" required maxlength="2500"></textarea></label>
 
-          <label>
-            Nationality
-            <input type="text" name="nationality" placeholder="Your nationality">
-          </label>
-
-          <label>
-            Travel dates / trip duration
-            <input type="text" name="dates" placeholder="Approximate dates are fine">
-          </label>
-
-          <label>
-            Services you are interested in
-            <textarea name="services" rows="4" placeholder="Trip planning, lodging, relocation, transportation..."></textarea>
-          </label>
-
-          <label>
-            Additional information
-            <textarea name="message" rows="5" placeholder="Tell me a little about your goals for Argentina"></textarea>
-          </label>
-
-          <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+          <button type="submit" class="btn btn-primary form-submit">Send your inquiry</button>
+          <p class="privacy-note">Your details are used only to reply to your inquiry.</p>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div>
-      <strong>Argentina by Agustina</strong>
-      <p>End-to-end Argentina trip planning for busy people.</p>
+    <div class="footer-brand">
+      <strong data-site-title>Argentina by Agustina</strong>
+      <p>Boutique travel concierge for thoughtful, personalized experiences across Argentina.</p>
+      <small>© <span id="current-year">2026</span> Argentina by Agustina. All rights reserved.</small>
     </div>
-
-    <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+    <div class="footer-contact">
+      <strong>Start planning</strong>
+      <a href="mailto:argentinabyagustina@gmail.com" data-email-link data-email-text>argentinabyagustina@gmail.com</a>
+      <a href="https://wa.me/5491154098622" data-whatsapp-link data-whatsapp-text target="_blank" rel="noopener noreferrer">+54 9 11 5409-8622</a>
+      <span>Buenos Aires, Argentina</span>
     </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="#about">About</a><a href="#services">Services</a><a href="#places">Places</a><a href="#events">Events</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a><a href="#" data-instagram-link hidden target="_blank" rel="noopener noreferrer">Instagram</a>
+    </nav>
   </footer>
 
-  <script src="script.js"></script>
+  <a class="whatsapp-float" data-whatsapp-link href="https://wa.me/5491154098622?text=Hello%20Agustina%2C%20I%27d%20like%20help%20planning%20my%20Argentina%20experience." target="_blank" rel="noopener noreferrer" aria-label="Chat with Agustina on WhatsApp"><span aria-hidden="true">💬</span></a>
+  <script src="script.js" defer></script>
 </body>
-
 </html>

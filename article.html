@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6eedf">
+  <meta name="description" content="Travel stories and local recommendations from Argentina by Agustina.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <title>Article | Argentina by Agustina</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="article-page-body">
+  <a class="skip-link" href="#article-content">Skip to article</a>
+  <nav class="navbar article-navbar" aria-label="Primary navigation">
+    <a href="index.html" class="logo" aria-label="Argentina by Agustina, home"><span>Argentina</span><small>by Agustina</small></a>
+    <a class="nav-button article-home-link" href="index.html#articles">← Back to Articles</a>
+  </nav>
+
+  <main id="article-content" class="article-detail-shell">
+    <div id="article-loading" class="article-state">Loading article…</div>
+    <article id="article-detail" class="article-detail" hidden>
+      <header class="article-detail-header">
+        <p class="eyebrow dark" id="article-kicker">Argentina</p>
+        <h1 id="article-title"></h1>
+        <p class="article-detail-summary" id="article-summary"></p>
+        <div class="article-detail-meta" id="article-meta"></div>
+      </header>
+      <img id="article-cover" class="article-detail-cover" alt="" hidden>
+      <div class="article-prose" id="article-body"></div>
+      <section class="article-gallery" id="article-gallery" hidden aria-label="Article photo gallery"></section>
+      <footer class="article-detail-footer">
+        <div>
+          <p class="eyebrow dark">Share this guide</p>
+          <div class="article-share-actions">
+            <button class="btn btn-outline" type="button" id="share-article">Share Article</button>
+            <a class="btn btn-primary" href="index.html#contact">Plan My Trip</a>
+          </div>
+        </div>
+        <a class="article-back-link" href="index.html#articles">← See all articles</a>
+      </footer>
+    </article>
+    <div id="article-error" class="article-state article-state-error" hidden>
+      <h1>We couldn't find this article.</h1>
+      <p>It may have been moved, unpublished, or the link may be incomplete.</p>
+      <a class="btn btn-primary" href="index.html#articles">Back to Articles</a>
+    </div>
+  </main>
+  <footer class="footer article-footer"><div><strong>Argentina by Agustina</strong><p>Thoughtful travel planning, local knowledge, and unforgettable Argentina experiences.</p></div></footer>
+  <script src="article.js" defer></script>
+</body>
+</html>
