@@ -17,11 +17,21 @@ function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', {year:'numeric', month:'long', day:'numeric'}).format(date);
 }
 
-async function fetchSanity(query, params = {}) {
-  const search = new URLSearchParams({query, ...Object.fromEntries(Object.entries(params).map(([k,v]) => [`$${k}`, JSON.stringify(v)]))});
-  const endpoint = `https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`;
-  const response = await fetch(endpoint, {headers:{Accept:'application/json'}});
-  if (!response.ok) throw new Error(`Sanity request failed (${response.status})`);
+async function fetchSanity(query) {
+  const search = new URLSearchParams({
+    query,
+    perspective: 'published',
+    returnQuery: 'false',
+  });
+  const endpoint = `https://${SANITY.projectId}.api.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`;
+  const response = await fetch(endpoint, {
+    headers: {Accept: 'application/json'},
+    cache: 'no-store',
+  });
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Sanity request failed (${response.status}): ${details}`);
+  }
   return (await response.json()).result;
 }
 
@@ -87,8 +97,9 @@ async function loadArticle() {
   const error = document.getElementById('article-error');
   if (!slug) { loading.hidden = true; error.hidden = false; return; }
   try {
-    const query = `*[_type == "article" && slug.current == $slug][0]{title, "slug": slug.current, summary, publishedAt, "city": city->name, "categories": categories[]->title, "coverUrl": coverImage.asset->url, "coverAlt": coverImage.alt, body[]{..., "url": asset->url}, gallery[]{..., "url": asset->url}}`;
-    const article = await fetchSanity(query, {slug});
+    const slugLiteral = JSON.stringify(decodeURIComponent(slug).trim());
+    const query = `*[_type == "article" && slug.current == ${slugLiteral}][0]{title, "slug": slug.current, summary, publishedAt, "city": city->name, "categories": categories[]->title, "coverUrl": coverImage.asset->url, "coverAlt": coverImage.alt, body[]{..., "url": asset->url}, gallery[]{..., "url": asset->url}}`;
+    const article = await fetchSanity(query);
     if (!article) throw new Error('Article not found');
     updateMetadata(article);
     document.getElementById('article-title').textContent = article.title;
