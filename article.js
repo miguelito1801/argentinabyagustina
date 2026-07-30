@@ -78,7 +78,10 @@ function updateMetadata(article) {
 }
 
 async function loadArticle() {
-  const slug = new URLSearchParams(location.search).get('slug');
+  const querySlug = new URLSearchParams(location.search).get('slug');
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const pathSlug = pathParts[0] === 'articles' ? pathParts[1] : '';
+  const slug = querySlug || pathSlug;
   const loading = document.getElementById('article-loading');
   const detail = document.getElementById('article-detail');
   const error = document.getElementById('article-error');
