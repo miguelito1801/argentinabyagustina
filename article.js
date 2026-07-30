@@ -73,7 +73,7 @@ function updateMetadata(article) {
   document.querySelector('meta[name="description"]').content = article.summary || 'Argentina travel guide by Agustina.';
   const canonical = document.createElement('link');
   canonical.rel = 'canonical';
-  canonical.href = `https://www.argentinabyagustina.com/article.html?slug=${encodeURIComponent(article.slug)}`;
+  canonical.href = `https://www.argentinabyagustina.com/articles/${encodeURIComponent(article.slug)}`;
   document.head.appendChild(canonical);
 }
 
