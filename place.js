@@ -90,7 +90,10 @@ function bindShare(data) {
 }
 
 async function loadPlace() {
-  const slug = new URLSearchParams(location.search).get('slug');
+  const querySlug = new URLSearchParams(location.search).get('slug');
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const pathSlug = pathParts[0] === 'places' ? pathParts[1] : '';
+  const slug = querySlug || pathSlug;
   const loading = document.getElementById('detail-loading');
   const detail = document.getElementById('detail');
   const error = document.getElementById('detail-error');
