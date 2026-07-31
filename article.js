@@ -17,21 +17,11 @@ function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', {year:'numeric', month:'long', day:'numeric'}).format(date);
 }
 
-async function fetchSanity(query) {
-  const search = new URLSearchParams({
-    query,
-    perspective: 'published',
-    returnQuery: 'false',
-  });
-  const endpoint = `https://${SANITY.projectId}.api.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`;
-  const response = await fetch(endpoint, {
-    headers: {Accept: 'application/json'},
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    const details = await response.text();
-    throw new Error(`Sanity request failed (${response.status}): ${details}`);
-  }
+async function fetchSanity(query, params = {}) {
+  const search = new URLSearchParams({query, ...Object.fromEntries(Object.entries(params).map(([k,v]) => [`$${k}`, JSON.stringify(v)]))});
+  const endpoint = `https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`;
+  const response = await fetch(endpoint, {headers:{Accept:'application/json'}});
+  if (!response.ok) throw new Error(`Sanity request failed (${response.status})`);
   return (await response.json()).result;
 }
 
@@ -78,6 +68,17 @@ function renderPortableText(blocks = []) {
   return out.join('');
 }
 
+function estimateReadingTime(blocks = []) {
+  const text = blocks
+    .filter((block) => block?._type === 'block')
+    .flatMap((block) => block.children || [])
+    .map((child) => child.text || '')
+    .join(' ')
+    .trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 function updateMetadata(article) {
   document.title = `${article.title} | Argentina by Agustina`;
   document.querySelector('meta[name="description"]').content = article.summary || 'Argentina travel guide by Agustina.';
@@ -97,15 +98,17 @@ async function loadArticle() {
   const error = document.getElementById('article-error');
   if (!slug) { loading.hidden = true; error.hidden = false; return; }
   try {
-    const slugLiteral = JSON.stringify(decodeURIComponent(slug).trim());
-    const query = `*[_type == "article" && slug.current == ${slugLiteral}][0]{title, "slug": slug.current, summary, publishedAt, "city": city->name, "categories": categories[]->title, "coverUrl": coverImage.asset->url, "coverAlt": coverImage.alt, body[]{..., "url": asset->url}, gallery[]{..., "url": asset->url}}`;
-    const article = await fetchSanity(query);
-    if (!article) throw new Error('Article not found');
+    const query = `*[_type == "article" && slug.current == $slug][0]{title, "slug": slug.current, summary, publishedAt, "city": city->name, "categories": categories[]->title, "coverUrl": coverImage.asset->url, "coverAlt": coverImage.alt, body[]{..., "url": asset->url}, gallery[]{..., "url": asset->url}}`;
+    const article = await fetchSanity(query, {slug});
+    if (!article) throw new Error('Travel guide not found');
     updateMetadata(article);
     document.getElementById('article-title').textContent = article.title;
     document.getElementById('article-summary').textContent = article.summary || '';
     document.getElementById('article-kicker').textContent = [article.city, ...(article.categories || [])].filter(Boolean).join(' · ') || 'Argentina';
-    document.getElementById('article-meta').textContent = article.publishedAt ? `Published ${formatDate(article.publishedAt)}` : '';
+    const metaParts = [];
+    if (article.publishedAt) metaParts.push(`Published ${formatDate(article.publishedAt)}`);
+    metaParts.push(`${estimateReadingTime(article.body || [])} min read`);
+    document.getElementById('article-meta').textContent = metaParts.join(' · ');
     const cover = document.getElementById('article-cover');
     const safeCover = safeExternalUrl(article.coverUrl);
     if (safeCover) { cover.src = safeCover; cover.alt = article.coverAlt || article.title; cover.hidden = false; }

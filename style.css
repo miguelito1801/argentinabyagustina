@@ -989,3 +989,12 @@ body.modal-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Argentina by Agustina 1.2 — Travel Guides polish */
+.article-detail-meta { display:flex; justify-content:center; gap:.55rem; flex-wrap:wrap; }
+@media (max-width: 700px) {
+  .article-navbar { gap: .75rem; padding-left: 4%; padding-right: 4%; }
+  .article-home-link { white-space: nowrap; max-width: 62%; text-align: center; line-height: 1.2; }
+  .article-detail-header h1 { font-size: clamp(2.65rem, 15vw, 4.4rem); }
+}

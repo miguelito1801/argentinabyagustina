@@ -284,17 +284,17 @@ function renderReviews(reviews) {
 function renderArticles(articles) {
   const grid = document.getElementById('articles-grid');
   if (!grid) return;
-  if (!articles?.length) { setGridState(grid, 'Agustina’s first local stories are coming soon.'); return; }
+  if (!articles?.length) { setGridState(grid, 'Agustina’s first travel guides are coming soon.'); return; }
   grid.classList.remove('is-loading'); grid.setAttribute('aria-busy', 'false');
   grid.innerHTML = articles.map((article) => `
-    <article class="article-card reveal" data-content-type="articles" data-category="${escapeHtml(normalizeSearch(article.category || 'Articles'))}">
+    <article class="article-card reveal" data-content-type="articles" data-category="${escapeHtml(normalizeSearch(article.category || 'Travel Guides'))}">
       <div class="article-image dynamic-image" role="img" aria-label="${escapeHtml(article.imageAlt || article.title)}"${safeExternalUrl(article.imageUrl) ? ` style="background-image:url('${escapeHtml(safeExternalUrl(article.imageUrl))}')"` : ''}></div>
       <div class="article-body">
         <span>${escapeHtml(article.city || article.category || 'Argentina')}</span>
         <h3>${escapeHtml(article.title)}</h3>
         <p class="article-summary">${escapeHtml(article.summary || '')}</p>
         ${article.publishedAt ? `<small>${escapeHtml(formatDate(article.publishedAt))}</small>` : ''}
-        ${article.slug ? `<a class="article-read-link" href="${detailHref('articles', article.slug)}" aria-label="Read ${escapeHtml(article.title)}">Read Article →</a>` : ''}
+        ${article.slug ? `<a class="article-read-link" href="${detailHref('articles', article.slug)}" aria-label="Read guide: ${escapeHtml(article.title)}">Read Guide →</a>` : ''}
       </div>
     </article>`).join('');
   observeReveals(grid);
@@ -365,7 +365,7 @@ async function loadCmsContent() {
     setGridState(document.getElementById('places-grid'), 'Recommendations could not be loaded right now.', true);
     setGridState(document.getElementById('events-grid'), 'Events could not be loaded right now.', true);
     setGridState(document.getElementById('reviews-grid'), 'Reviews could not be loaded right now.', true);
-    setGridState(document.getElementById('articles-grid'), 'Articles could not be loaded right now.', true);
+    setGridState(document.getElementById('articles-grid'), 'Travel guides could not be loaded right now.', true);
   }
 }
 

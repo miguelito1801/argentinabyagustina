@@ -17,9 +17,9 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.listItem()
         .id('articles')
-        .title('📰 Artículos y recomendaciones')
+        .title('🧭 Guías de viaje')
         .schemaType('article')
-        .child(S.documentTypeList('article').title('Artículos')),
+        .child(S.documentTypeList('article').title('Guías de viaje')),
       S.listItem()
         .id('places')
         .title('📍 Lugares recomendados')
