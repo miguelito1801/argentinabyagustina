@@ -222,40 +222,89 @@ export function Dashboard() {
             <Card
               radius={4}
               shadow={2}
-              padding={2}
+              padding={0}
               style={{
-                background: 'rgba(255,250,242,.96)',
-                border: '1px solid rgba(226,188,105,.55)',
+                background: 'linear-gradient(145deg, #d5ad55 0%, #f8e9bd 28%, #9d6d2d 100%)',
+                border: '1px solid rgba(244,208,122,.85)',
                 overflow: 'hidden',
                 width: '100%',
-                maxWidth: 270,
+                maxWidth: 286,
                 justifySelf: 'end',
+                boxShadow: '0 18px 42px rgba(9,24,32,.34)',
               }}
             >
-              <Stack space={2}>
-                <Box paddingTop={2} paddingX={2}>
-                  <Text
-                    size={2}
-                    weight="bold"
-                    align="center"
-                    style={{fontFamily: 'Georgia, serif', color: '#7a2e2e', letterSpacing: '.04em'}}
-                  >
-                    Hacelo por ella ♡
-                  </Text>
-                </Box>
-                <img
-                  src="/indi.webp"
-                  alt="La perrita de Agustina"
+              <Box padding={2}>
+                <Box
                   style={{
-                    width: '100%',
-                    height: 250,
-                    objectFit: 'cover',
-                    objectPosition: 'center 35%',
-                    borderRadius: 12,
-                    display: 'block',
+                    background: '#f8edd3',
+                    border: '2px solid #7a2e2e',
+                    borderRadius: 16,
+                    padding: 8,
+                    boxShadow: 'inset 0 0 0 3px #d5ad55, inset 0 0 18px rgba(122,46,46,.13)',
                   }}
-                />
-              </Stack>
+                >
+                  <Stack space={3}>
+                    <Box
+                      paddingTop={2}
+                      style={{
+                        borderBottom: '1px solid rgba(157,109,45,.45)',
+                        paddingBottom: 9,
+                      }}
+                    >
+                      <Text
+                        size={2}
+                        weight="bold"
+                        align="center"
+                        style={{
+                          fontFamily: 'Georgia, serif',
+                          color: '#7a2e2e',
+                          letterSpacing: '.04em',
+                        }}
+                      >
+                        Hacelo por ella ♡
+                      </Text>
+                    </Box>
+                    <Box
+                      style={{
+                        padding: 5,
+                        borderRadius: 15,
+                        background: 'linear-gradient(145deg, #9b6a2d, #f2d487 46%, #7a2e2e)',
+                        boxShadow: '0 8px 22px rgba(61,38,19,.28)',
+                      }}
+                    >
+                      <img
+                        src="/static/indi.jpeg"
+                        alt="Indi, la perrita de Agustina"
+                        style={{
+                          width: '100%',
+                          height: 232,
+                          objectFit: 'cover',
+                          objectPosition: 'center 35%',
+                          borderRadius: 11,
+                          display: 'block',
+                        }}
+                      />
+                    </Box>
+                    <Stack space={2} style={{paddingBottom: 5}}>
+                      <Text
+                        size={2}
+                        weight="bold"
+                        align="center"
+                        style={{fontFamily: 'Georgia, serif', color: '#17384a'}}
+                      >
+                        Indi 🐾
+                      </Text>
+                      <Text
+                        size={1}
+                        align="center"
+                        style={{fontFamily: 'Georgia, serif', color: '#6d5540', fontStyle: 'italic'}}
+                      >
+                        Una amiga muy querida que siempre inspira.
+                      </Text>
+                    </Stack>
+                  </Stack>
+                </Box>
+              </Box>
             </Card>
           </Flex>
         </Card>
