@@ -2,12 +2,12 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const articleType = defineType({
   name: 'article',
-  title: 'Artículos',
+  title: 'Guías de viaje',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Título del artículo',
+      title: 'Título de la guía',
       type: 'string',
       validation: (rule) => rule.required().min(5).max(120),
     }),
@@ -15,7 +15,7 @@ export const articleType = defineType({
       name: 'slug',
       title: 'URL',
       type: 'slug',
-      description: 'Pulsá Generar para crear la dirección del artículo automáticamente.',
+      description: 'Pulsá Generar para crear la dirección de la guía automáticamente.',
       options: {source: 'title', maxLength: 96},
       validation: (rule) => rule.required(),
     }),
@@ -24,7 +24,7 @@ export const articleType = defineType({
       title: 'Descripción breve',
       type: 'text',
       rows: 3,
-      description: 'Escribí una introducción breve que aparecerá en la tarjeta del artículo.',
+      description: 'Escribí una introducción breve que aparecerá en la tarjeta de la guía.',
       validation: (rule) => rule.required().min(20).max(250),
     }),
     defineField({
@@ -32,7 +32,7 @@ export const articleType = defineType({
       title: 'Ciudad',
       type: 'reference',
       to: [{type: 'city'}],
-      description: 'Opcional. Elegí una ciudad cuando el artículo se relacione con un destino específico.',
+      description: 'Opcional. Elegí una ciudad cuando la guía se relacione con un destino específico.',
     }),
     defineField({
       name: 'categories',
@@ -45,7 +45,7 @@ export const articleType = defineType({
       name: 'coverImage',
       title: 'Imagen de portada',
       type: 'image',
-      description: 'Imagen principal que aparecerá en la tarjeta y al comienzo del artículo.',
+      description: 'Subí o arrastrá aquí la foto principal. Se mostrará en la tarjeta y al comienzo de la guía. Sanity acepta JPG, PNG y WebP; no necesitás usar otro programa.',
       options: {hotspot: true},
       fields: [
         defineField({
@@ -60,12 +60,13 @@ export const articleType = defineType({
     }),
     defineField({
       name: 'gallery',
-      title: 'Galería de imágenes',
+      title: 'Galería de fotos (opcional)',
       type: 'array',
-      description: 'Fotografías adicionales que quieras mostrar en el artículo.',
+      description: 'Usá “Add item” para subir varias fotos. Se mostrarán juntas al final de la guía.',
       of: [
         defineArrayMember({
           type: 'image',
+          title: 'Foto de la galería',
           options: {hotspot: true},
           fields: [
             defineField({
@@ -81,13 +82,14 @@ export const articleType = defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Contenido del artículo',
+      title: 'Contenido de la guía',
       type: 'array',
-      description: 'Escribí aquí el artículo completo. Podés usar títulos, listas, enlaces e imágenes.',
+      description: 'Escribí aquí la guía completa. Para insertar una foto entre párrafos, ubicá el cursor donde la querés y pulsá el botón “Image” de la barra. Podés subirla directamente desde tu computadora.',
       of: [
         defineArrayMember({type: 'block'}),
         defineArrayMember({
           type: 'image',
+          title: 'Imagen dentro del texto',
           options: {hotspot: true},
           fields: [
             defineField({
@@ -111,9 +113,9 @@ export const articleType = defineType({
     }),
     defineField({
       name: 'featured',
-      title: 'Artículo destacado',
+      title: 'Guía destacada',
       type: 'boolean',
-      description: 'Activá esta opción para destacar el artículo en la página principal.',
+      description: 'Activá esta opción para destacar la guía en la página principal.',
       initialValue: false,
     }),
   ],

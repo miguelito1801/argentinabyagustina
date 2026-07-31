@@ -28,6 +28,8 @@ function StatCard({
   help,
   warning,
   tone,
+  accent,
+  icon,
   onClick,
 }: {
   label: string
@@ -35,26 +37,50 @@ function StatCard({
   help: string
   warning?: boolean
   tone?: 'default' | 'primary' | 'positive' | 'caution' | 'critical'
+  accent: string
+  icon: string
   onClick?: () => void
 }) {
   return (
     <Card
       padding={4}
-      radius={3}
+      radius={4}
       shadow={1}
       tone={warning ? 'caution' : tone || 'default'}
       onClick={onClick}
-      style={{cursor: onClick ? 'pointer' : 'default', minHeight: 120}}
+      style={{
+        cursor: onClick ? 'pointer' : 'default',
+        minHeight: 142,
+        borderTop: `5px solid ${accent}`,
+        transition: 'transform .18s ease, box-shadow .18s ease',
+      }}
     >
-      <Stack space={3}>
-        <Text size={1} weight="semibold" muted>
-          {label}
-        </Text>
-        <Heading size={3}>{value}</Heading>
-        <Text size={1} muted>
-          {help}
-        </Text>
-      </Stack>
+      <Flex justify="space-between" align="flex-start" gap={3}>
+        <Stack space={3}>
+          <Text size={1} weight="semibold" muted>
+            {label}
+          </Text>
+          <Heading size={4}>{value}</Heading>
+          <Text size={1} muted style={{lineHeight: 1.45}}>
+            {help}
+          </Text>
+        </Stack>
+        <Box
+          style={{
+            width: 42,
+            height: 42,
+            minWidth: 42,
+            borderRadius: 14,
+            display: 'grid',
+            placeItems: 'center',
+            background: `${accent}18`,
+            color: accent,
+            fontSize: 21,
+          }}
+        >
+          {icon}
+        </Box>
+      </Flex>
     </Card>
   )
 }
@@ -148,24 +174,139 @@ export function Dashboard() {
           padding={[4, 5]}
           radius={4}
           shadow={2}
-          style={{background: '#17384a', color: '#fffaf2'}}
+          style={{
+            background: 'linear-gradient(135deg, #17384a 0%, #244f62 62%, #6f3033 145%)',
+            color: '#fffaf2',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
         >
-          <Stack space={4}>
-            <Text size={1} weight="bold" style={{letterSpacing: '0.16em', color: '#d8ad55'}}>
-              ARGENTINA BY AGUSTINA
-            </Text>
-            <Heading size={4} style={{color: '#fffaf2'}}>
-              {greeting}, Agustina ♡
-            </Heading>
-            <Text size={2} style={{maxWidth: 820, lineHeight: 1.65, color: '#f4eadc'}}>
-              Gracias por confiar en mí para crear este proyecto. Deseo que este sitio te acompañe
-              durante muchos años y te ayude a mostrar la Argentina tal como vos la vivís: cercana,
-              auténtica y llena de experiencias inolvidables.
-            </Text>
-            <Text size={1} style={{color: '#d8ad55'}}>
-              Con mucho cariño — Miguel
-            </Text>
-          </Stack>
+          <Box
+            style={{
+              position: 'absolute',
+              width: 240,
+              height: 240,
+              borderRadius: 999,
+              right: -85,
+              top: -120,
+              border: '1px solid rgba(216,173,85,.28)',
+            }}
+          />
+          <Flex gap={5} align="center" justify="space-between" wrap="wrap" style={{position: 'relative'}}>
+            <Stack space={4} style={{flex: '1 1 620px'}}>
+              <Text size={1} weight="bold" style={{letterSpacing: '0.16em', color: '#e2bc69'}}>
+                ARGENTINA BY AGUSTINA
+              </Text>
+              <Heading size={4} style={{color: '#fffaf2'}}>
+                {greeting}, Agustina ♡
+              </Heading>
+              <Text size={2} style={{lineHeight: 1.65, color: '#f4eadc', maxWidth: 700}}>
+                Este es tu espacio para publicar guías, lugares, eventos y reseñas de forma simple.
+                Todo queda guardado para que puedas trabajar tranquila y a tu ritmo.
+              </Text>
+              <Flex gap={3} align="center" wrap="wrap">
+                <Button
+                  text="Ver página pública ↗"
+                  tone="primary"
+                  onClick={() => window.open('https://www.argentinabyagustina.com', '_blank', 'noopener,noreferrer')}
+                />
+                <Text size={1} style={{color: '#dce8ec'}}>
+                  ● Sitio online
+                </Text>
+              </Flex>
+              <Text size={1} style={{color: '#e2bc69'}}>
+                Hecho con cariño para tu proyecto — Miguel
+              </Text>
+            </Stack>
+
+            <Card
+              radius={4}
+              shadow={2}
+              padding={0}
+              style={{
+                background: 'linear-gradient(145deg, #d5ad55 0%, #f8e9bd 28%, #9d6d2d 100%)',
+                border: '1px solid rgba(244,208,122,.85)',
+                overflow: 'hidden',
+                width: '100%',
+                maxWidth: 286,
+                justifySelf: 'end',
+                boxShadow: '0 18px 42px rgba(9,24,32,.34)',
+              }}
+            >
+              <Box padding={2}>
+                <Box
+                  style={{
+                    background: '#f8edd3',
+                    border: '2px solid #7a2e2e',
+                    borderRadius: 16,
+                    padding: 8,
+                    boxShadow: 'inset 0 0 0 3px #d5ad55, inset 0 0 18px rgba(122,46,46,.13)',
+                  }}
+                >
+                  <Stack space={3}>
+                    <Box
+                      paddingTop={2}
+                      style={{
+                        borderBottom: '1px solid rgba(157,109,45,.45)',
+                        paddingBottom: 9,
+                      }}
+                    >
+                      <Text
+                        size={2}
+                        weight="bold"
+                        align="center"
+                        style={{
+                          fontFamily: 'Georgia, serif',
+                          color: '#7a2e2e',
+                          letterSpacing: '.04em',
+                        }}
+                      >
+                        Hacelo por ella ♡
+                      </Text>
+                    </Box>
+                    <Box
+                      style={{
+                        padding: 5,
+                        borderRadius: 15,
+                        background: 'linear-gradient(145deg, #9b6a2d, #f2d487 46%, #7a2e2e)',
+                        boxShadow: '0 8px 22px rgba(61,38,19,.28)',
+                      }}
+                    >
+                      <img
+                        src="/static/indi.jpeg"
+                        alt="Indi, la perrita de Agustina"
+                        style={{
+                          width: '100%',
+                          height: 232,
+                          objectFit: 'cover',
+                          objectPosition: 'center 35%',
+                          borderRadius: 11,
+                          display: 'block',
+                        }}
+                      />
+                    </Box>
+                    <Stack space={2} style={{paddingBottom: 5}}>
+                      <Text
+                        size={2}
+                        weight="bold"
+                        align="center"
+                        style={{fontFamily: 'Georgia, serif', color: '#17384a'}}
+                      >
+                        Indi 🐾
+                      </Text>
+                      <Text
+                        size={1}
+                        align="center"
+                        style={{fontFamily: 'Georgia, serif', color: '#6d5540', fontStyle: 'italic'}}
+                      >
+                        Una amiga muy querida que siempre inspira.
+                      </Text>
+                    </Stack>
+                  </Stack>
+                </Box>
+              </Box>
+            </Card>
+          </Flex>
         </Card>
 
         {stats.pending > 0 && (
@@ -216,18 +357,20 @@ export function Dashboard() {
           </Card>
         ) : (
           <Grid columns={[1, 2, 3]} gap={3}>
-            <StatCard label="Artículos publicados" value={stats.articles} help="Notas visibles en la web" tone="positive" onClick={() => go('articles')} />
-            <StatCard label="Lugares visibles" value={stats.places} help="Recomendaciones publicadas" tone="primary" onClick={() => go('places')} />
-            <StatCard label="Eventos publicados" value={stats.events} help="Actividades cargadas" tone="primary" onClick={() => go('events')} />
+            <StatCard label="Guías publicadas" value={stats.articles} help="Guías visibles en la web" tone="positive" accent="#71835b" icon="✦" onClick={() => go('articles')} />
+            <StatCard label="Lugares visibles" value={stats.places} help="Recomendaciones publicadas" tone="primary" accent="#52758c" icon="⌖" onClick={() => go('places')} />
+            <StatCard label="Eventos publicados" value={stats.events} help="Actividades cargadas" tone="primary" accent="#b17b45" icon="◷" onClick={() => go('events')} />
             <StatCard
               label="Reseñas pendientes"
               value={stats.pending}
               help={stats.pending > 0 ? 'Necesitan tu aprobación' : 'No hay reseñas por revisar'}
               warning={stats.pending > 0}
+              accent="#b58b3d"
+              icon="!"
               onClick={() => go('pendingReviews')}
             />
-            <StatCard label="Reseñas aprobadas" value={stats.approved} help="Opiniones públicas" tone="positive" onClick={() => go('approvedReviews')} />
-            <StatCard label="Borradores" value={stats.drafts} help="Cambios todavía no publicados" tone={stats.drafts > 0 ? 'caution' : 'default'} />
+            <StatCard label="Reseñas aprobadas" value={stats.approved} help="Opiniones públicas" tone="positive" accent="#71835b" icon="♡" onClick={() => go('approvedReviews')} />
+            <StatCard label="Borradores" value={stats.drafts} help="Cambios todavía no publicados" tone={stats.drafts > 0 ? 'caution' : 'default'} accent="#8b6c84" icon="✎" />
           </Grid>
         )}
 
@@ -235,9 +378,9 @@ export function Dashboard() {
           <Card padding={[4, 5]} radius={4} tone="primary" shadow={1}>
             <Stack space={3}>
               <Heading size={2}>Tu primera publicación está a un paso</Heading>
-              <Text size={1}>Creá una nota breve, agregá una imagen y pulsá Publicar. Después aparecerá automáticamente en la web.</Text>
+              <Text size={1}>Creá una guía breve, agregá una imagen y pulsá Publicar. Después aparecerá automáticamente en la web.</Text>
               <Box>
-                <Button text="Crear mi primer artículo" tone="primary" onClick={() => go('articles')} />
+                <Button text="Crear mi primera guía" tone="primary" onClick={() => go('articles')} />
               </Box>
             </Stack>
           </Card>
@@ -249,27 +392,29 @@ export function Dashboard() {
           </Card>
         )}
 
-        <Card padding={[4, 5]} radius={4} shadow={1}>
+        <Card padding={[4, 5]} radius={4} shadow={1} style={{background: '#fffdf8'}}>
           <Stack space={4}>
-            <Heading size={2}>Accesos rápidos</Heading>
-            <Text muted>Elegí qué querés administrar. No necesitás usar Visual Studio ni escribir código.</Text>
-            <Flex gap={3} wrap="wrap">
-              <Button text="Escribir un artículo" tone="primary" onClick={() => go('articles')} />
-              <Button text="Agregar un lugar" mode="ghost" onClick={() => go('places')} />
-              <Button text="Agregar un evento" mode="ghost" onClick={() => go('events')} />
-              <Button text="Revisar opiniones" mode="ghost" onClick={() => go('pendingReviews')} />
-              <Button text="Datos de contacto" mode="ghost" onClick={() => go('websiteSettings')} />
+            <Stack space={2}>
+              <Heading size={2}>¿Qué querés hacer hoy?</Heading>
+              <Text muted>Los accesos más usados están primero para que encuentres todo rápido.</Text>
+            </Stack>
+            <Grid columns={[1, 2, 4]} gap={3}>
+              <Button text="✦ Escribir una guía" tone="primary" padding={4} onClick={() => go('articles')} />
+              <Button text="⌖ Agregar un lugar" mode="ghost" padding={4} onClick={() => go('places')} />
+              <Button text="◷ Agregar un evento" mode="ghost" padding={4} onClick={() => go('events')} />
+              <Button text="♡ Revisar reseñas" mode="ghost" padding={4} onClick={() => go('pendingReviews')} />
+            </Grid>
+            <Flex gap={2} wrap="wrap">
+              <Button text="Datos de contacto" mode="bleed" onClick={() => go('websiteSettings')} />
               <Button
-                text="Abrir manual de ayuda"
-                mode="ghost"
-                onClick={() => window.open('https://www.argentinabyagustina.com/LEEME-AGUSTINA.html', '_blank', 'noopener,noreferrer')}
+                text="Manual de ayuda"
+                mode="bleed"
+                onClick={() => window.open('https://www.argentinabyagustina.com/GUIA-AGUSTINA.html', '_blank', 'noopener,noreferrer')}
               />
               <Button
-                text="Ver la página pública"
-                mode="ghost"
-                onClick={() =>
-                  window.open('https://www.argentinabyagustina.com', '_blank', 'noopener,noreferrer')
-                }
+                text="Abrir página pública ↗"
+                mode="bleed"
+                onClick={() => window.open('https://www.argentinabyagustina.com', '_blank', 'noopener,noreferrer')}
               />
             </Flex>
           </Stack>
@@ -291,7 +436,7 @@ export function Dashboard() {
               <Button text="Entender borradores" tone={helpTopic === 'borrador' ? 'primary' : 'default'} mode={helpTopic === 'borrador' ? 'default' : 'ghost'} onClick={() => setHelpTopic('borrador')} />
             </Flex>
             <Card padding={4} radius={3} tone="primary">
-              {helpTopic === 'publicar' && <Text>Elegí Artículos, Lugares o Eventos → pulsá + → completá los campos → revisá → pulsá Publicar.</Text>}
+              {helpTopic === 'publicar' && <Text>Elegí Guías de viaje, Lugares o Eventos → pulsá + → completá los campos → revisá → pulsá Publicar.</Text>}
               {helpTopic === 'review' && <Text>Entrá en Reseñas pendientes → leé el comentario → elegí Aprobada o Rechazada → pulsá Publicar.</Text>}
               {helpTopic === 'contacto' && <Text>Entrá en Datos de contacto → cambiá email, WhatsApp o Instagram → pulsá Publicar.</Text>}
               {helpTopic === 'borrador' && <Text>Borrador no se ve públicamente. Publicado sí. Si aparecen ambos, pulsá Publicar para actualizar la web.</Text>}
@@ -305,7 +450,7 @@ export function Dashboard() {
             <GuideCard
               number="1"
               title="Crear contenido"
-              text="Entrá en Artículos, Lugares o Eventos y pulsá el botón +. Completá los campos marcados como obligatorios."
+              text="Entrá en Guías de viaje, Lugares o Eventos y pulsá el botón +. Completá los campos marcados como obligatorios."
             />
             <GuideCard
               number="2"
@@ -347,7 +492,7 @@ export function Dashboard() {
 
         <Box paddingY={3}>
           <Text size={1} muted align="center">
-            Argentina by Agustina CMS · Versión 1.1 DIAMOND · Entrega final · Desarrollado por Miguel Torres ♡
+            Argentina by Agustina CMS · Versión 1.2 · Diseñado y desarrollado por Miguel Torres ♡
           </Text>
         </Box>
       </Stack>

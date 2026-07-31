@@ -11,21 +11,10 @@ function safeExternalUrl(value = '') {
   } catch { return ''; }
 }
 
-async function fetchSanity(query) {
-  const search = new URLSearchParams({
-    query,
-    perspective: 'published',
-    returnQuery: 'false',
-  });
-  const endpoint = `https://${SANITY.projectId}.api.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`;
-  const response = await fetch(endpoint, {
-    headers: {Accept: 'application/json'},
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    const details = await response.text();
-    throw new Error(`Sanity request failed (${response.status}): ${details}`);
-  }
+async function fetchSanity(query, params = {}) {
+  const search = new URLSearchParams({query, ...Object.fromEntries(Object.entries(params).map(([key, value]) => [`$${key}`, JSON.stringify(value)]))});
+  const response = await fetch(`https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?${search}`, {headers:{Accept:'application/json'}});
+  if (!response.ok) throw new Error(`Sanity request failed (${response.status})`);
   return (await response.json()).result;
 }
 
@@ -111,9 +100,8 @@ async function loadPlace() {
   if (!slug || slug.length > 160) { loading.hidden = true; error.hidden = false; return; }
 
   try {
-    const slugLiteral = JSON.stringify(decodeURIComponent(slug).trim());
-    const query = `*[_type == "place" && slug.current == ${slugLiteral} && active != false][0]{name,"slug":slug.current,shortDescription,address,mapUrl,instagramUrl,websiteUrl,priceLevel,"city":city->name,"categories":categories[]->title,"coverUrl":coverImage.asset->url,"coverAlt":coverImage.alt,description[]{...,"url":asset->url},gallery[]{...,"url":asset->url}}`;
-    const place = await fetchSanity(query);
+    const query = `*[_type == "place" && slug.current == $slug && active != false][0]{name,"slug":slug.current,shortDescription,address,mapUrl,instagramUrl,websiteUrl,priceLevel,"city":city->name,"categories":categories[]->title,"coverUrl":coverImage.asset->url,"coverAlt":coverImage.alt,description[]{...,"url":asset->url},gallery[]{...,"url":asset->url}}`;
+    const place = await fetchSanity(query, {slug});
     if (!place) throw new Error('Place not found');
 
     updateMetadata(place.name, place.shortDescription, `https://www.argentinabyagustina.com/places/${encodeURIComponent(place.slug)}`);
